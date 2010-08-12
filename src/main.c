@@ -3,13 +3,13 @@
 
 #include "io.h"
 
-int main(int argc, void *argv[])
+int main(int argc, char *argv[])
 {
   FILE *ent;
   int flag = 0;
   char buff[30];
   char buff2[1024];
-  ent = fopen("e1", "r");
+  ent = fopen("../src/e1", "r");
 
   get_token(ent, buff, &flag);
   printf("%s\n", buff);
@@ -26,7 +26,7 @@ int main(int argc, void *argv[])
   printf("==========================================\n");
   printf("==========================================\n");
 
-  ent = fopen("e2", "r");
+  ent = fopen("../src/e2", "r");
   while(fgets(buff2, 1024, ent))
   {
     printf("%s", buff2);
