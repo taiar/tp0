@@ -6,47 +6,46 @@
 #include <string.h>
 
 //estrutura das listas
-typedef struct listapal *apontalinha;
+typedef struct listapal *pLista;
 
 typedef struct
 {
-  apontalinha primeiro, ultimo;
-} lista;
+  pLista primeiro, ultimo;
+} Lista;
 
 typedef struct listapal
 {
 
-  int linha;
-  apontalinha prox;
+  int val;
+  pLista prox;
 
 } linha;
 
-void iniciaL(lista*);
-int vaziaL(lista);
-void insereL(int, lista*);
+void listaInicia(Lista*);
+int listaVazia(Lista);
+void listaInsere(int, Lista*);
+void listaDestroi(Lista*);
 
 // estrutuda das arvores
 typedef struct registro
 {
+  Lista documentos;
+} Registro;
 
-  lista linhas;
-
-} registro;
-
-typedef struct no *apontano;
+typedef struct no *pNo;
 
 typedef struct no
 {
-  char palavra[30];
-  registro reg;
-  apontano esq, dir;
-} no;
+  char palavra[50];
+  Registro reg;
+  pNo esq, dir;
+} No;
 
-typedef apontano dicionario;
+typedef pNo Dicionario;
 
-void inicializaT(apontano*);
-void insereT(apontano*, char*, int);
-void caminhamento_centralT(apontano*, FILE*);
-void imprimeNo(apontano*, FILE*);
+void inicializaT(pNo*);
+void insereT(pNo*, char*, int);
+void caminhamento_centralT(pNo*, FILE*);
+void imprimeNo(pNo*, FILE*);
 
 #endif

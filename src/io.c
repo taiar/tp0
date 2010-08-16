@@ -81,37 +81,23 @@ char lowerCase(char c)
 
 void getToken(FILE *handle, char* string, int *next)
 {
+  if (feof(handle))
+    *next = 1;
   int count = 0;
   char buff;
   string[0] = '\0';
   buff = getc(handle);
-  while (buff != EOF)
-  {
-    if (isChar(buff))
-    {
-      string[count] = lowerCase(buff);
-      count++;
-    }
-    else if (isLineBreak(buff))
-    {
-      *next = 1;
-      count = 0;
-      break;
-    }
-    else if (isSpace(buff))
-    {
-      *next = 0;
-      count = 0;
-      break;
-    }
-    string[count + 1] = '\0';
+  while (!isChar(buff) && !feof(handle))
     buff = getc(handle);
-    if (buff == EOF)
-    {
-      *next = 2;
-      break;
-    }
+  while (isChar(buff) && !feof(handle))
+  {
+    string[count] = buff;
+    string[count + 1] = '\0';
+    count += 1;
+    buff = getc(handle);
   }
-  if (buff == EOF)
-    *next = 2;
+  if (count < 3 && !feof(handle))
+    getToken(handle, string, next);
+  else
+    return;
 }

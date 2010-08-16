@@ -27,17 +27,19 @@ int main(int argc, char *argv[])
 
   char linha[100];
   char termo[50];
-  int rFlag;
+  int rFlag = 0;
 
   while(fscanf(listaTextos, "%s\n", linha) != EOF)
   {
+    printf("Lendo arquivo %s:\n", linha);
     leitura = fopen(linha, "r");
     getToken(leitura, termo, &rFlag);
-    while(rFlag != 2)
+    while(rFlag != 1)
     {
-      printf("%s\n", termo);
+      printf("\"%s\"\n", termo);
       getToken(leitura, termo, &rFlag);
     }
+    rFlag = 0;
     fclose(leitura);
   }
 

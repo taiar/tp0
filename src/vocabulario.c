@@ -1,41 +1,41 @@
 #include "vocabulario.h"
 
 //lista
-void iniciaL(lista *l)
+void listaInicia(Lista *l)
 {
-  l->primeiro = (apontalinha) malloc(sizeof(linha));
+  l->primeiro = (pLista) malloc(sizeof(linha));
   l->ultimo = l->primeiro;
   l->primeiro->prox = NULL;
 }
 
-int vaziaL(lista l)
+int listaVazia(Lista l)
 {
   return (l.primeiro == l.ultimo);
 }
 
-void insereL(int linha, lista *l)
+void listaInsere(int linha, Lista *l)
 {
-  l->ultimo->prox = (apontalinha) malloc(sizeof(linha));
+  l->ultimo->prox = (pLista) malloc(sizeof(linha));
   l->ultimo = l->ultimo->prox;
-  l->ultimo->linha = linha;
+  l->ultimo->val = linha;
   l->ultimo->prox = NULL;
 }
 
 //arvore
-void inicializaT(apontano *d)
+void inicializaT(pNo *d)
 {
   (*d) = NULL;
 }
 
-void insereT(apontano *p, char *palavra, int linha)
+void insereT(pNo *p, char *palavra, int linha)
 {
   if ((*p) == NULL)
   {
-    *p = (apontano) malloc(sizeof(no));
+    *p = (pNo) malloc(sizeof(No));
 
     strcpy((*p)->palavra, palavra);
-    iniciaL(&(*p)->reg.linhas);
-    insereL(linha, &(*p)->reg.linhas);
+    listaInicia(&(*p)->reg.linhas);
+    listaInsere(linha, &(*p)->reg.linhas);
 
     (*p)->esq = NULL;
     (*p)->dir = NULL;
@@ -46,16 +46,16 @@ void insereT(apontano *p, char *palavra, int linha)
     insereT(&(*p)->esq, palavra, linha);
   else
   { //pesquisa se tal linha ja foi inserida
-    apontalinha aux;
+    pLista aux;
     aux = (*p)->reg.linhas.primeiro;
-    while (aux != NULL && aux->linha != linha)
+    while (aux != NULL && aux->val != linha)
       aux = aux->prox;
     if (aux == NULL)
-      insereL(linha, &(*p)->reg.linhas); //insere linha
+      listaInsere(linha, &(*p)->reg.linhas); //insere linha
   }
 }
 
-void caminhamento_centralT(apontano *p, FILE *handle)
+void caminhamento_centralT(pNo *p, FILE *handle)
 {
   if ((*p) == NULL)
     return;
@@ -65,21 +65,21 @@ void caminhamento_centralT(apontano *p, FILE *handle)
 
 }
 
-void imprimeNo(apontano *p, FILE *handle)
+void imprimeNo(pNo *p, FILE *handle)
 {
 
   fprintf(handle, "%s ", (*p)->palavra);
 
-  apontalinha aux;
+  pLista aux;
   int i;
 
   aux = (*p)->reg.linhas.primeiro->prox;
   for (i = 0;; i++)
   {
     if (i == 0)
-      fprintf(handle, "%d", aux->linha);
+      fprintf(handle, "%d", aux->val);
     else
-      fprintf(handle, ",%d", aux->linha);
+      fprintf(handle, ",%d", aux->val);
     aux = aux->prox;
     if (!aux)
       break;
