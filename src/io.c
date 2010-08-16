@@ -74,10 +74,10 @@ int isLineBreak(char c)
 char lowerCase(char c)
 {
   if (c >= 65 && c <= 99)
-    return c + 32;
+    return tolower(c);
   else
     return c;
-}*
+}
 
 void getToken(FILE *handle, char* string, int *next)
 {
