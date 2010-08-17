@@ -3,7 +3,7 @@
 //lista
 void listaInicia(Lista *l)
 {
-  l->primeiro = (pLista) malloc(sizeof(linha));
+  l->primeiro = (pLista) malloc(sizeof(listaCelula));
   l->ultimo = l->primeiro;
   l->primeiro->prox = NULL;
 }
@@ -15,19 +15,19 @@ int listaVazia(Lista l)
 
 void listaInsere(int linha, Lista *l)
 {
-  l->ultimo->prox = (pLista) malloc(sizeof(linha));
+  l->ultimo->prox = (pLista) malloc(sizeof(listaCelula));
   l->ultimo = l->ultimo->prox;
   l->ultimo->val = linha;
   l->ultimo->prox = NULL;
 }
 
 //arvore
-void inicializaT(pNo *d)
+void dicionarioInicia(pNo *d)
 {
   (*d) = NULL;
 }
 
-void insereT(pNo *p, char *palavra, int linha)
+void dicionarioInsere(pNo *p, char *palavra, int linha)
 {
   if ((*p) == NULL)
   {
@@ -41,9 +41,9 @@ void insereT(pNo *p, char *palavra, int linha)
     (*p)->dir = NULL;
   }
   else if (strcmp(palavra, (*p)->palavra) > 0)
-    insereT(&(*p)->dir, palavra, linha);
+    dicionarioInsere(&(*p)->dir, palavra, linha);
   else if (strcmp(palavra, (*p)->palavra) < 0)
-    insereT(&(*p)->esq, palavra, linha);
+    dicionarioInsere(&(*p)->esq, palavra, linha);
   else
   { //pesquisa se tal linha ja foi inserida
     pLista aux;
@@ -55,17 +55,17 @@ void insereT(pNo *p, char *palavra, int linha)
   }
 }
 
-void caminhamento_centralT(pNo *p, FILE *handle)
+void dicionarioCaminhoCentral(pNo *p, FILE *handle)
 {
   if ((*p) == NULL)
     return;
-  caminhamento_centralT(&(*p)->esq, handle);
-  imprimeNo(&(*p), handle);
-  caminhamento_centralT(&(*p)->dir, handle);
+  dicionarioCaminhoCentral(&(*p)->esq, handle);
+  dicionarioImprime(&(*p), handle);
+  dicionarioCaminhoCentral(&(*p)->dir, handle);
 
 }
 
-void imprimeNo(pNo *p, FILE *handle)
+void dicionarioImprime(pNo *p, FILE *handle)
 {
 
   fprintf(handle, "%s ", (*p)->palavra);

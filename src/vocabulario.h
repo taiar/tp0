@@ -19,7 +19,7 @@ typedef struct listapal
   int val;
   pLista prox;
 
-} linha;
+} listaCelula;
 
 void listaInicia(Lista*);
 int listaVazia(Lista);
@@ -43,9 +43,9 @@ typedef struct no
 
 typedef pNo Dicionario;
 
-void inicializaT(pNo*);
-void insereT(pNo*, char*, int);
-void caminhamento_centralT(pNo*, FILE*);
-void imprimeNo(pNo*, FILE*);
+void dicionarioInicia(pNo*);
+void dicionarioInsere(pNo*, char*, int);
+void dicionarioCaminhoCentral(pNo*, FILE*);
+void '(pNo*, FILE*);
 
 #endif
