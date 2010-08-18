@@ -42,11 +42,19 @@ int entradaLe(int argc, char** argv, entrada *entrada)
         argv[0]);
     return 0;
   }
+
+  entrada->listaTextos = fopen(entrada->entradaListaDeTextos, "r");
+  if(!entrada->listaTextos)
+  {
+    printf("O arquivo passado como parâmetro de lista de textos '%s' não existe.\n", entrada->entradaListaDeTextos);
+    return 0;
+  }
   return 1;
 }
 
 void entradaFree(entrada *entrada)
 {
+  fclose(entrada->listaTextos);
 }
 
 int isChar(char c)
@@ -108,13 +116,15 @@ void getToken(FILE *handle, char* string, int *next)
     *next = 1;
   int count = 0;
   char buff;
+  char min;
   string[0] = '\0';
-  buff = tolower((getc(handle)));
+  buff = getc(handle);
   while (!isalpha(buff) && !feof(handle))
     buff = getc(handle);
   while (isalpha(buff) && !feof(handle))
   {
-    string[count] = buff;
+    min = tolower(buff);
+    string[count] = min;
     string[count + 1] = '\0';
     count += 1;
     buff = getc(handle);

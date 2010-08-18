@@ -11,3 +11,10 @@
                     *    - utilizar uma thread para cada fluxo
                        */
 
+
+
+
+
+
+sem filtrar maiusculas e minusculas, temos 29843 termos
+ignorando letras maiusculas tivemos 26590 termos

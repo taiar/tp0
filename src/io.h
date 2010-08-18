@@ -15,6 +15,7 @@ typedef struct
   char *entradaListaDeTextos, *saidaPalavrasChave, *saidaMaisSimilares;
   //TODO: apagar se desnecessário
   //FILE *listaTextos, *palavrasChave, *similares;
+  FILE *listaTextos;
 } entrada;
 
 /**

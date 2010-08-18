@@ -3,22 +3,53 @@
 //lista
 void listaInicia(Lista *l)
 {
+  l->tamanho = 0;
   l->primeiro = (pLista) malloc(sizeof(listaCelula));
   l->ultimo = l->primeiro;
   l->primeiro->prox = NULL;
 }
 
-int listaVazia(Lista l)
+int listaVazia(Lista *l)
 {
-  return (l.primeiro == l.ultimo);
+  return (l->tamanho == 0);
+  //return (l.primeiro == l.ultimo);
 }
 
-void listaInsere(int linha, Lista *l)
+void listaInsere(Lista *l, int texto)
 {
   l->ultimo->prox = (pLista) malloc(sizeof(listaCelula));
   l->ultimo = l->ultimo->prox;
-  l->ultimo->val = linha;
+  l->ultimo->texto = texto;
+  l->ultimo->quantidade = 1;
+  l->tamanho += 1;
   l->ultimo->prox = NULL;
+}
+
+void listaDestroi(Lista *l)
+{
+  while(!listaVazia(l))
+    listaRetiraUltimo(l);
+}
+
+void listaRetiraUltimo(Lista *l)
+{
+  pLista aux, aux2;
+  aux = l->primeiro->prox;
+  if(aux->prox == NULL)
+  {
+    l->ultimo = l->primeiro;
+    l->primeiro->prox = NULL;
+    free(aux);
+    l->tamanho = 0;
+    return;
+  }
+  while(aux->prox->prox != NULL)
+    aux = aux->prox;
+  aux2 = aux->prox;
+  l->ultimo = aux;
+  aux->prox = NULL;
+  free(aux2->prox);
+  l->tamanho -= 1;
 }
 
 //arvore
@@ -27,31 +58,33 @@ void dicionarioInicia(pNo *d)
   (*d) = NULL;
 }
 
-void dicionarioInsere(pNo *p, char *palavra, int linha)
+void dicionarioInsere(pNo *p, char *palavra, int texto)
 {
   if ((*p) == NULL)
   {
     *p = (pNo) malloc(sizeof(No));
 
-    strcpy((*p)->palavra, palavra);
-    listaInicia(&(*p)->reg.documentos);
-    listaInsere(linha, &(*p)->reg.documentos);
+    strcpy((*p)->termo, palavra);
+    listaInicia(&(*p)->ocorrencias);
+    listaInsere(&(*p)->ocorrencias, texto);
 
     (*p)->esq = NULL;
     (*p)->dir = NULL;
   }
-  else if (strcmp(palavra, (*p)->palavra) > 0)
-    dicionarioInsere(&(*p)->dir, palavra, linha);
-  else if (strcmp(palavra, (*p)->palavra) < 0)
-    dicionarioInsere(&(*p)->esq, palavra, linha);
+  else if (strcmp(palavra, (*p)->termo) > 0)
+    dicionarioInsere(&(*p)->dir, palavra, texto);
+  else if (strcmp(palavra, (*p)->termo) < 0)
+    dicionarioInsere(&(*p)->esq, palavra, texto);
   else
-  { //pesquisa se tal linha ja foi inserida
+  {
     pLista aux;
-    aux = (*p)->reg.documentos.primeiro;
-    while (aux != NULL && aux->val != linha)
+    aux = (*p)->ocorrencias.primeiro;
+    while (aux != NULL && aux->texto != texto)
       aux = aux->prox;
     if (aux == NULL)
-      listaInsere(linha, &(*p)->reg.documentos); //insere linha
+      listaInsere(&(*p)->ocorrencias, texto);
+    else
+      aux->quantidade += 1;
   }
 }
 
@@ -68,44 +101,45 @@ void dicionarioCaminhoCentral(pNo *p, FILE *handle)
 void dicionarioImprime(pNo *p, FILE *handle)
 {
 
-  fprintf(handle, "%s ", (*p)->palavra);
+  fprintf(handle, "%s ", (*p)->termo);
 
   pLista aux;
   int i;
 
-  aux = (*p)->reg.documentos.primeiro->prox;
+  aux = (*p)->ocorrencias.primeiro->prox;
   for (i = 0;; i++)
   {
-    if (i == 0)
-      fprintf(handle, "%d", aux->val);
-    else
-      fprintf(handle, ",%d", aux->val);
+      fprintf(handle, ",%d (%d)", aux->texto, aux->quantidade);
     aux = aux->prox;
     if (!aux)
       break;
   }
+
+  listaDestroi(&(*p)->ocorrencias);
   fprintf(handle, "\n");
 
 }
 
-/* VERSAO DE TESTE
+void indiceConstroi(pNo *v, FILE *t)
+{
+  char linha[100];
+  char termo[50];
+  int rFlag = 0;
+  int n_texto = 0;
+  FILE *leitura;
 
- void imprimeNo(apontano *p){
+  while(fscanf(t, "%s\n", linha) != EOF)
+  {
+    leitura = fopen(linha, "r");
+    getToken(leitura, termo, &rFlag);
+    while(rFlag != 1)
+    {
+      dicionarioInsere(v, termo, n_texto);
+      getToken(leitura, termo, &rFlag);
+    }
+    rFlag = 0;
+    n_texto += 1;
+    fclose(leitura);
+  }
+}
 
- printf("%s ", (*p)->palavra);
-
- apontalinha aux;
- int i;
-
- aux = (*p)->reg.linhas.primeiro->prox;
- for(i = 0;;i++){
- if(i == 0) printf("%d", aux->linha);
- else printf(",%d", aux->linha);
- aux = aux->prox;
- if(!aux) break;
- }
- printf("\n");
-
- }
-
- */

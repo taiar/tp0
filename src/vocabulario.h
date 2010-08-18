@@ -5,40 +5,36 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "io.h"
+
 //estrutura das listas
 typedef struct listapal *pLista;
 
 typedef struct
 {
+  int tamanho;
   pLista primeiro, ultimo;
 } Lista;
 
 typedef struct listapal
 {
-
   int texto;
-  int ocorrencias;
+  int quantidade;
   pLista prox;
-
 } listaCelula;
 
 void listaInicia(Lista*);
-int listaVazia(Lista);
-void listaInsere(int, Lista*);
+int listaVazia(Lista*);
+void listaInsere(Lista*, int);
 void listaDestroi(Lista*);
-
-// estrutuda das arvores
-typedef struct registro
-{
-  Lista documentos;
-} Registro;
+void listaRetiraUltimo(Lista*);
 
 typedef struct no *pNo;
 
 typedef struct no
 {
   char termo[50];
-  Registro reg;
+  Lista ocorrencias;
   pNo esq, dir;
 } No;
 
@@ -48,5 +44,7 @@ void dicionarioInicia(pNo*);
 void dicionarioInsere(pNo*, char*, int);
 void dicionarioCaminhoCentral(pNo*, FILE*);
 void dicionarioImprime(pNo*, FILE*);
+
+void indiceConstroi(pNo*, FILE*);
 
 #endif
