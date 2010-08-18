@@ -46,6 +46,6 @@ typedef pNo Dicionario;
 void dicionarioInicia(pNo*);
 void dicionarioInsere(pNo*, char*, int);
 void dicionarioCaminhoCentral(pNo*, FILE*);
-void '(pNo*, FILE*);
+void dicionarioImprime(pNo*, FILE*);
 
 #endif

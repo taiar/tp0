@@ -34,8 +34,8 @@ void dicionarioInsere(pNo *p, char *palavra, int linha)
     *p = (pNo) malloc(sizeof(No));
 
     strcpy((*p)->palavra, palavra);
-    listaInicia(&(*p)->reg.linhas);
-    listaInsere(linha, &(*p)->reg.linhas);
+    listaInicia(&(*p)->reg.documentos);
+    listaInsere(linha, &(*p)->reg.documentos);
 
     (*p)->esq = NULL;
     (*p)->dir = NULL;
@@ -47,11 +47,11 @@ void dicionarioInsere(pNo *p, char *palavra, int linha)
   else
   { //pesquisa se tal linha ja foi inserida
     pLista aux;
-    aux = (*p)->reg.linhas.primeiro;
+    aux = (*p)->reg.documentos.primeiro;
     while (aux != NULL && aux->val != linha)
       aux = aux->prox;
     if (aux == NULL)
-      listaInsere(linha, &(*p)->reg.linhas); //insere linha
+      listaInsere(linha, &(*p)->reg.documentos); //insere linha
   }
 }
 
@@ -73,7 +73,7 @@ void dicionarioImprime(pNo *p, FILE *handle)
   pLista aux;
   int i;
 
-  aux = (*p)->reg.linhas.primeiro->prox;
+  aux = (*p)->reg.documentos.primeiro->prox;
   for (i = 0;; i++)
   {
     if (i == 0)
