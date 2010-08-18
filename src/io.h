@@ -53,6 +53,11 @@ int isLineBreak(char);
 char lowerCase(char);
 
 /**
+ * Simplifica caracteres acentuados e cedilhas.
+ */
+char tiraAcento(char);
+
+/**
  * Lê e armazena em uma variável uma string retirada do arquivo de passado como
  * parâmetro. A string é definida arbitráriamente segundo especificação.
  * Sinaliza um flag inteiro interpretando o valor char da próxima leitura para

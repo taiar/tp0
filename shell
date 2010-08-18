@@ -1,0 +1,1 @@
+for a in $(cat ./entrada/listaTextos); do ./rem $a; done

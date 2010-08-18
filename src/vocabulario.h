@@ -16,7 +16,8 @@ typedef struct
 typedef struct listapal
 {
 
-  int val;
+  int texto;
+  int ocorrencias;
   pLista prox;
 
 } listaCelula;
@@ -36,7 +37,7 @@ typedef struct no *pNo;
 
 typedef struct no
 {
-  char palavra[50];
+  char termo[50];
   Registro reg;
   pNo esq, dir;
 } No;
