@@ -1,6 +1,5 @@
 #include "vocabulario.h"
 
-//lista
 void listaInicia(Lista *l)
 {
   l->tamanho = 0;
@@ -52,7 +51,6 @@ void listaRetiraUltimo(Lista *l)
   l->tamanho -= 1;
 }
 
-//arvore
 void dicionarioInicia(pNo *d)
 {
   (*d) = NULL;
@@ -139,31 +137,25 @@ void dicionarioImprime(pNo *p, int limite)
   printf("\n");
 }
 
-/*void indiceConstroi(pNo *v, FILE *t, unsigned int *textos, unsigned int *termos)
+int dicionarioBuscaOcorrenciasTermo(pNo *p, char *termo)
 {
-  char linha[100];
-  char termo[50];
-  int rFlag = 0;
-  int n_texto = 0;
-  FILE *leitura;
-
-  while (fscanf(t, "%s\n", linha) != EOF)
+  if ((*p) != NULL)
   {
-    leitura = fopen(linha, "r");
-    getToken(leitura, termo, &rFlag);
-    while (rFlag != 1)
+    printf("OEE!\n");
+    if (strcmp(termo, (*p)->termo) > 0)
+      dicionarioBuscaOcorrenciasTermo(&(*p)->dir, termo);
+    else if (strcmp(termo, (*p)->termo) < 0)
+      dicionarioBuscaOcorrenciasTermo(&(*p)->esq, termo);
+    else
     {
-      dicionarioInsere(v, termo, n_texto, termos);
-      getToken(leitura, termo, &rFlag);
+      printf("ACHEI!\n");
+      return (*p)->ocorrencias.tamanho;
     }
-    rFlag = 0;
-    n_texto += 1;
-    fclose(leitura);
   }
-  *textos = n_texto;
-}*/
+}
 
-void indiceConstroi(pNo *v, Entrada *e, unsigned int *textos, unsigned int *termos)
+void indiceConstroi(pNo *v, Entrada *e, unsigned int *textos,
+    unsigned int *termos)
 {
   char linha[100];
   char termo[50];
@@ -187,7 +179,8 @@ void indiceConstroi(pNo *v, Entrada *e, unsigned int *textos, unsigned int *term
   *textos = n_texto;
 }
 
-void indiceTextosConstroi(Dicionario *vec_textos, Dicionario *vocabulario, Entrada *e, unsigned int key_lim)
+void indiceTextosConstroi(Dicionario *vec_textos, Dicionario *vocabulario,
+    Entrada *e, unsigned int key_lim)
 {
   char linha[100];
   char termo[50];
@@ -219,9 +212,4 @@ void indiceImprimePalavrasChaves(pNo *p, int limite)
   indiceImprimePalavrasChaves(&(*p)->esq, limite);
   dicionarioImprime(&(*p), limite);
   indiceImprimePalavrasChaves(&(*p)->dir, limite);
-}
-
-void testePalavrasChaves()
-{
-
 }

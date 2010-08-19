@@ -25,14 +25,18 @@ int main(int argc, char *argv[])
     exit(EXIT_FAILURE);
 
   textos_keywords = (Dicionario*) malloc(sizeof(Dicionario) * textos_total);
-  indiceTextosConstroi(textos_keywords, &vocabulario, &in, keywords_limite_texto);
+  indiceTextosConstroi(textos_keywords, &vocabulario, &in,
+      keywords_limite_texto);
 
-  int i = 0;
-  for(;i<textos_total;i+=1)
+  char opa[8];
+  strcpy(opa, "que");
+
+  printf("%d - \"%s\"\n\n\n", dicionarioBuscaOcorrenciasTermo(&vocabulario, opa), opa);
+
+  int i;
+  for(i = 0; i < textos_total; i += 1)
   {
-    printf("Trabalhando com o texto %d\n", i);
-    indiceImprimePalavrasChaves(&textos_keywords[i], 1.);
-    printf("==========================\n\n");
+
   }
 
   if (!saidaInicia(&in))

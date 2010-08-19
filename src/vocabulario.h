@@ -45,10 +45,13 @@ void dicionarioInsere(pNo*, char*, int, unsigned int*);
 void dicionarioCaminhoCentral(pNo*, FILE*);
 void dicionarioImprimeSaida(pNo*, FILE*);
 void dicionarioImprime(pNo*, int);
+int  dicionarioBuscaOcorrenciasTermo(pNo*, char*);
 
 //void indiceConstroi(pNo*, FILE*, unsigned int*, unsigned int*);
 void indiceConstroi(pNo*, Entrada*, unsigned int*, unsigned int*);
 void indiceTextosConstroi(Dicionario*, Dicionario*, Entrada*, unsigned int);
+void indiceTextosRefinaKeywords(Dicionario*, Dicionario*, unsigned int);
+void indiceRemoveKeywordsIrrelevantes(Dicionario*, Dicionario*);
 void indiceImprimePalavrasChaves(pNo*, int);
 
 #endif
