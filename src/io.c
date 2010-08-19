@@ -150,7 +150,7 @@ void getToken(FILE *handle, char* string, int *next)
     count += 1;
     buff = getc(handle);
   }
-  if (count < 3 && !feof(handle))
+  if (count < KEYWORD_MIN_CHAR && !feof(handle))
     getToken(handle, string, next);
   else
     return;

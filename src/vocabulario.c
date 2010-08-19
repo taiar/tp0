@@ -119,9 +119,9 @@ void dicionarioImprimeSaida(pNo *p, FILE *handle)
   fprintf(handle, "\n");
 }
 
-void dicionarioImprime(pNo *p)
+void dicionarioImprime(pNo *p, int limite)
 {
-  if ((*p)->ocorrencias.tamanho > keywords_upper_limit)
+  if ((*p)->ocorrencias.tamanho > limite && limite != 0)
     return;
 
   printf("%s ", (*p)->termo);
@@ -163,13 +163,13 @@ void indiceConstroi(pNo *v, FILE *t, unsigned int *textos, unsigned int *termos)
   *textos = n_texto;
 }
 
-void indiceImprimePalavrasChaves(pNo *p)
+void indiceImprimePalavrasChaves(pNo *p, int limite)
 {
   if ((*p) == NULL)
     return;
-  indiceImprimePalavrasChaves(&(*p)->esq);
-  dicionarioImprime(&(*p));
-  indiceImprimePalavrasChaves(&(*p)->dir);
+  indiceImprimePalavrasChaves(&(*p)->esq, limite);
+  dicionarioImprime(&(*p), limite);
+  indiceImprimePalavrasChaves(&(*p)->dir, limite);
 }
 
 void testePalavrasChaves()

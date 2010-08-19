@@ -18,3 +18,12 @@
 
 sem filtrar maiusculas e minusculas, temos 29843 termos
 ignorando letras maiusculas tivemos 26590 termos
+
+
+
+
+
+para uma avaliacao experimental e tiracao de conclusao: 
+ - relacionar a variacao da proporcao de KEYWORDS_PROPORCAO_APARICAO com a limitacao da quantidade de keywords avaliadas
+ - relacionar a variacao do limite de KEYWORD_MIN_CHAR com limitacao da quantidade de keywords avaliadas
+ - avaliar qualidade das keywords baseadas nos termos acima
