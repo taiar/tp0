@@ -6,7 +6,7 @@
 #include <unistd.h>
 #include <ctype.h>
 
-#define KEYWORD_MIN_CHAR 5
+#define KEYWORD_MIN_CHAR 3
 
 /**
  * Armazena dados lidos da entrada.
@@ -27,6 +27,11 @@ void entradaInit(Entrada*);
  * Faz leitura dos dados de entrada e os armazena.
  */
 int entradaLe(int, char**, Entrada*);
+
+/**
+ * Realoca o arquivo de lista de textos para leitura.
+ */
+int entradaReinicia(Entrada*);
 
 /**
  * Libera dados utilizados na leitura da entrada.

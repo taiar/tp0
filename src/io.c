@@ -54,6 +54,19 @@ int entradaLe(int argc, char** argv, Entrada *entrada)
   return 1;
 }
 
+int entradaReinicia(Entrada *entrada)
+{
+  if(entrada->listaTextos)
+    fclose(entrada->listaTextos);
+  entrada->listaTextos = fopen(entrada->entradaListaDeTextos, "r");
+  if(!entrada->listaTextos)
+  {
+    printf("Não foi possível reiniciar a leitura da lista de textos");
+    return 0;
+  }
+  return 1;
+}
+
 void entradaFree(Entrada *entrada)
 {
   fclose(entrada->listaTextos);
