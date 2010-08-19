@@ -7,24 +7,20 @@
 
 int main(int argc, char *argv[])
 {
-  entrada in;
+  Entrada in;
   Dicionario vocabulario;
 
   if (!entradaLe(argc, argv, &in))
     exit(EXIT_FAILURE);
 
-  FILE *palavrasChave, *similares;
-  palavrasChave = fopen(in.saidaPalavrasChave, "w");
-  similares = fopen(in.saidaMaisSimilares, "w");
-
   dicionarioInicia(&vocabulario);
   indiceConstroi(&vocabulario, in.listaTextos);
 
-  dicionarioCaminhoCentral(&vocabulario, palavrasChave);
+  if (!saidaInicia(&in))
+    exit(EXIT_FAILURE);
 
   entradaFree(&in);
-  fclose(palavrasChave);
-  fclose(similares);
+  saidaFree(&in);
 
   return 1;
 }

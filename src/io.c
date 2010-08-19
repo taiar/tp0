@@ -1,6 +1,6 @@
 #include "io.h"
 
-void entradaInit(entrada *entrada)
+void entradaInit(Entrada *entrada)
 {
   entrada->aFlag = 0;
   entrada->bFlag = 0;
@@ -11,7 +11,7 @@ void entradaInit(entrada *entrada)
   entrada->saidaPalavrasChave = NULL;
 }
 
-int entradaLe(int argc, char** argv, entrada *entrada)
+int entradaLe(int argc, char** argv, Entrada *entrada)
 {
   entradaInit(entrada);
   int c;
@@ -44,17 +44,38 @@ int entradaLe(int argc, char** argv, entrada *entrada)
   }
 
   entrada->listaTextos = fopen(entrada->entradaListaDeTextos, "r");
-  if(!entrada->listaTextos)
+  if (!entrada->listaTextos)
   {
-    printf("O arquivo passado como parâmetro de lista de textos '%s' não existe.\n", entrada->entradaListaDeTextos);
+    printf(
+        "O arquivo passado como parâmetro de lista de textos '%s' não existe.\n",
+        entrada->entradaListaDeTextos);
     return 0;
   }
   return 1;
 }
 
-void entradaFree(entrada *entrada)
+void entradaFree(Entrada *entrada)
 {
   fclose(entrada->listaTextos);
+}
+
+int saidaInicia(Entrada *entrada)
+{
+  entrada->palavrasChave = fopen(entrada->saidaPalavrasChave, "w");
+  entrada->similares = fopen(entrada->saidaMaisSimilares, "w");
+  if (!entrada->palavrasChave || !entrada->similares)
+  {
+    printf("Não foi possível escrever os arquivos de saída. '%s' e '%s'\n",
+        entrada->saidaPalavrasChave, entrada->saidaMaisSimilares);
+    return 0;
+  }
+  return 1;
+}
+
+void saidaFree(Entrada *entrada)
+{
+  fclose(entrada->palavrasChave);
+  fclose(entrada->similares);
 }
 
 int isChar(char c)

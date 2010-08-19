@@ -13,25 +13,33 @@ typedef struct
 {
   int aFlag, bFlag, cFlag;
   char *entradaListaDeTextos, *saidaPalavrasChave, *saidaMaisSimilares;
-  //TODO: apagar se desnecessário
-  //FILE *listaTextos, *palavrasChave, *similares;
-  FILE *listaTextos;
-} entrada;
+  FILE *listaTextos, *palavrasChave, *similares;
+} Entrada;
 
 /**
  * Seta os valores iniciais da estrutura de entrada.
  */
-void entradaInit(entrada*);
+void entradaInit(Entrada*);
+
+/**
+ * Faz leitura dos dados de entrada e os armazena.
+ */
+int entradaLe(int, char**, Entrada*);
 
 /**
  * Libera dados utilizados na leitura da entrada.
  */
-void entradaFree(entrada*);
+void entradaFree(Entrada*);
 
 /**
- * Faz leitura dos dados de entrada e armazena.
+ * Aloca arquivos de saida.
  */
-int entradaLe(int, char**, entrada*);
+int saidaInicia(Entrada*);
+
+/**
+ * Libera dados utilizados na saida do programa.
+ */
+void saidaFree(Entrada*);
 
 /**
  * Verifica se o caractere passado é valido segundo criterios arbitrarios para leitura do arquivo.
