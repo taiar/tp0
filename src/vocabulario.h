@@ -41,10 +41,10 @@ typedef struct no
 typedef pNo Dicionario;
 
 void dicionarioInicia(pNo*);
-void dicionarioInsere(pNo*, char*, int);
+void dicionarioInsere(pNo*, char*, int, unsigned int*);
 void dicionarioCaminhoCentral(pNo*, FILE*);
 void dicionarioImprime(pNo*, FILE*);
 
-void indiceConstroi(pNo*, FILE*);
+void indiceConstroi(pNo*, FILE*, unsigned int*, unsigned int*);
 
 #endif

@@ -27,7 +27,7 @@ void listaInsere(Lista *l, int texto)
 
 void listaDestroi(Lista *l)
 {
-  while(!listaVazia(l))
+  while (!listaVazia(l))
     listaRetiraUltimo(l);
 }
 
@@ -35,7 +35,7 @@ void listaRetiraUltimo(Lista *l)
 {
   pLista aux, aux2;
   aux = l->primeiro->prox;
-  if(aux->prox == NULL)
+  if (aux->prox == NULL)
   {
     l->ultimo = l->primeiro;
     l->primeiro->prox = NULL;
@@ -43,7 +43,7 @@ void listaRetiraUltimo(Lista *l)
     l->tamanho = 0;
     return;
   }
-  while(aux->prox->prox != NULL)
+  while (aux->prox->prox != NULL)
     aux = aux->prox;
   aux2 = aux->prox;
   l->ultimo = aux;
@@ -58,7 +58,7 @@ void dicionarioInicia(pNo *d)
   (*d) = NULL;
 }
 
-void dicionarioInsere(pNo *p, char *palavra, int texto)
+void dicionarioInsere(pNo *p, char *palavra, int texto, unsigned int *n_termos)
 {
   if ((*p) == NULL)
   {
@@ -70,11 +70,12 @@ void dicionarioInsere(pNo *p, char *palavra, int texto)
 
     (*p)->esq = NULL;
     (*p)->dir = NULL;
+    *n_termos += 1;
   }
   else if (strcmp(palavra, (*p)->termo) > 0)
-    dicionarioInsere(&(*p)->dir, palavra, texto);
+    dicionarioInsere(&(*p)->dir, palavra, texto, n_termos);
   else if (strcmp(palavra, (*p)->termo) < 0)
-    dicionarioInsere(&(*p)->esq, palavra, texto);
+    dicionarioInsere(&(*p)->esq, palavra, texto, n_termos);
   else
   {
     pLista aux;
@@ -100,7 +101,6 @@ void dicionarioCaminhoCentral(pNo *p, FILE *handle)
 
 void dicionarioImprime(pNo *p, FILE *handle)
 {
-
   fprintf(handle, "%s ", (*p)->termo);
 
   pLista aux;
@@ -109,7 +109,7 @@ void dicionarioImprime(pNo *p, FILE *handle)
   aux = (*p)->ocorrencias.primeiro->prox;
   for (i = 0;; i++)
   {
-      fprintf(handle, ",%d (%d)", aux->texto, aux->quantidade);
+    fprintf(handle, ",%d (%d)", aux->texto, aux->quantidade);
     aux = aux->prox;
     if (!aux)
       break;
@@ -117,10 +117,9 @@ void dicionarioImprime(pNo *p, FILE *handle)
 
   listaDestroi(&(*p)->ocorrencias);
   fprintf(handle, "\n");
-
 }
 
-void indiceConstroi(pNo *v, FILE *t)
+void indiceConstroi(pNo *v, FILE *t, unsigned int *textos, unsigned int *termos)
 {
   char linha[100];
   char termo[50];
@@ -128,18 +127,19 @@ void indiceConstroi(pNo *v, FILE *t)
   int n_texto = 0;
   FILE *leitura;
 
-  while(fscanf(t, "%s\n", linha) != EOF)
+  while (fscanf(t, "%s\n", linha) != EOF)
   {
     leitura = fopen(linha, "r");
     getToken(leitura, termo, &rFlag);
-    while(rFlag != 1)
+    while (rFlag != 1)
     {
-      dicionarioInsere(v, termo, n_texto);
+      dicionarioInsere(v, termo, n_texto, termos);
       getToken(leitura, termo, &rFlag);
     }
     rFlag = 0;
     n_texto += 1;
     fclose(leitura);
   }
+  *textos = n_texto;
 }
 
