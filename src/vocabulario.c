@@ -139,7 +139,7 @@ void dicionarioImprime(pNo *p, int limite)
   printf("\n");
 }
 
-void indiceConstroi(pNo *v, FILE *t, unsigned int *textos, unsigned int *termos)
+/*void indiceConstroi(pNo *v, FILE *t, unsigned int *textos, unsigned int *termos)
 {
   char linha[100];
   char termo[50];
@@ -161,6 +161,55 @@ void indiceConstroi(pNo *v, FILE *t, unsigned int *textos, unsigned int *termos)
     fclose(leitura);
   }
   *textos = n_texto;
+}*/
+
+void indiceConstroi(pNo *v, Entrada *e, unsigned int *textos, unsigned int *termos)
+{
+  char linha[100];
+  char termo[50];
+  int rFlag = 0;
+  int n_texto = 0;
+  FILE *leitura;
+
+  while (fscanf(e->listaTextos, "%s\n", linha) != EOF)
+  {
+    leitura = fopen(linha, "r");
+    getToken(leitura, termo, &rFlag);
+    while (rFlag != 1)
+    {
+      dicionarioInsere(v, termo, n_texto, termos);
+      getToken(leitura, termo, &rFlag);
+    }
+    rFlag = 0;
+    n_texto += 1;
+    fclose(leitura);
+  }
+  *textos = n_texto;
+}
+
+void indiceTextosConstroi(Dicionario *vec_textos, Dicionario *vocabulario, Entrada *e, unsigned int key_lim)
+{
+  char linha[100];
+  char termo[50];
+  int rFlag = 0;
+  int n_texto = 0;
+  unsigned int termos = 0;
+  FILE *leitura;
+
+  while (fscanf(e->listaTextos, "%s\n", linha) != EOF)
+  {
+    leitura = fopen(linha, "r");
+    dicionarioInicia(&vec_textos[n_texto]);
+    getToken(leitura, termo, &rFlag);
+    while (rFlag != 1)
+    {
+      dicionarioInsere(&vec_textos[n_texto], termo, n_texto, &termos);
+      getToken(leitura, termo, &rFlag);
+    }
+    rFlag = 0;
+    n_texto += 1;
+    fclose(leitura);
+  }
 }
 
 void indiceImprimePalavrasChaves(pNo *p, int limite)

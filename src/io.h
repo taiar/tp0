@@ -6,7 +6,7 @@
 #include <unistd.h>
 #include <ctype.h>
 
-#define KEYWORD_MIN_CHAR 3
+#define KEYWORD_MIN_CHAR 5
 
 /**
  * Armazena dados lidos da entrada.

@@ -46,7 +46,9 @@ void dicionarioCaminhoCentral(pNo*, FILE*);
 void dicionarioImprimeSaida(pNo*, FILE*);
 void dicionarioImprime(pNo*, int);
 
-void indiceConstroi(pNo*, FILE*, unsigned int*, unsigned int*);
+//void indiceConstroi(pNo*, FILE*, unsigned int*, unsigned int*);
+void indiceConstroi(pNo*, Entrada*, unsigned int*, unsigned int*);
+void indiceTextosConstroi(Dicionario*, Dicionario*, Entrada*, unsigned int);
 void indiceImprimePalavrasChaves(pNo*, int);
 
 #endif

@@ -12,20 +12,28 @@ int main(int argc, char *argv[])
   Entrada in;
   Dicionario vocabulario, *textos_keywords;
   unsigned int textos_total = 0, termos_total = 0, keywords_limite_texto;
-  unsigned int i = 0;
 
   if (!entradaLe(argc, argv, &in))
     exit(EXIT_FAILURE);
 
   dicionarioInicia(&vocabulario);
-  indiceConstroi(&vocabulario, in.listaTextos, &textos_total, &termos_total);
+  indiceConstroi(&vocabulario, &in, &textos_total, &termos_total);
 
   keywords_limite_texto = textos_total * KEYWORDS_PROPORCAO_APARICAO;
 
-  if(!entradaReinicia(&in))
+  if (!entradaReinicia(&in))
     exit(EXIT_FAILURE);
 
-  //indiceImprimePalavrasChaves(&vocabulario, keywords_limite_texto);
+  textos_keywords = (Dicionario*) malloc(sizeof(Dicionario) * textos_total);
+  indiceTextosConstroi(textos_keywords, &vocabulario, &in, keywords_limite_texto);
+
+  int i = 0;
+  for(;i<textos_total;i+=1)
+  {
+    printf("Trabalhando com o texto %d\n", i);
+    indiceImprimePalavrasChaves(&textos_keywords[i], 1.);
+    printf("==========================\n\n");
+  }
 
   if (!saidaInicia(&in))
     exit(EXIT_FAILURE);
@@ -33,5 +41,5 @@ int main(int argc, char *argv[])
   entradaFree(&in);
   saidaFree(&in);
 
-  return(EXIT_SUCCESS);
+  return (EXIT_SUCCESS);
 }
