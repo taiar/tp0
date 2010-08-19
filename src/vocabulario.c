@@ -94,12 +94,12 @@ void dicionarioCaminhoCentral(pNo *p, FILE *handle)
   if ((*p) == NULL)
     return;
   dicionarioCaminhoCentral(&(*p)->esq, handle);
-  dicionarioImprime(&(*p), handle);
+  dicionarioImprimeSaida(&(*p), handle);
   dicionarioCaminhoCentral(&(*p)->dir, handle);
 
 }
 
-void dicionarioImprime(pNo *p, FILE *handle)
+void dicionarioImprimeSaida(pNo *p, FILE *handle)
 {
   fprintf(handle, "%s ", (*p)->termo);
 
@@ -117,6 +117,26 @@ void dicionarioImprime(pNo *p, FILE *handle)
 
   listaDestroi(&(*p)->ocorrencias);
   fprintf(handle, "\n");
+}
+
+void dicionarioImprime(pNo *p)
+{
+  if ((*p)->ocorrencias.tamanho > keywords_upper_limit)
+    return;
+
+  printf("%s ", (*p)->termo);
+
+  pLista aux;
+  int i;
+  aux = (*p)->ocorrencias.primeiro->prox;
+  for (i = 0;; i++)
+  {
+    printf(",%d (%d)", aux->texto, aux->quantidade);
+    aux = aux->prox;
+    if (!aux)
+      break;
+  }
+  printf("\n");
 }
 
 void indiceConstroi(pNo *v, FILE *t, unsigned int *textos, unsigned int *termos)
@@ -143,3 +163,16 @@ void indiceConstroi(pNo *v, FILE *t, unsigned int *textos, unsigned int *termos)
   *textos = n_texto;
 }
 
+void indiceImprimePalavrasChaves(pNo *p)
+{
+  if ((*p) == NULL)
+    return;
+  indiceImprimePalavrasChaves(&(*p)->esq);
+  dicionarioImprime(&(*p));
+  indiceImprimePalavrasChaves(&(*p)->dir);
+}
+
+void testePalavrasChaves()
+{
+
+}
