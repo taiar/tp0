@@ -28,16 +28,10 @@ int main(int argc, char *argv[])
   indiceTextosConstroi(textos_keywords, &vocabulario, &in,
       keywords_limite_texto);
 
-  char opa[8];
-  strcpy(opa, "que");
+  char opa[18];
+  strcpy(opa, "horizonte");
 
   printf("%d - \"%s\"\n\n\n", dicionarioBuscaOcorrenciasTermo(&vocabulario, opa), opa);
-
-  int i;
-  for(i = 0; i < textos_total; i += 1)
-  {
-
-  }
 
   if (!saidaInicia(&in))
     exit(EXIT_FAILURE);
