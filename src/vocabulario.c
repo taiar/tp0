@@ -141,16 +141,12 @@ int dicionarioBuscaOcorrenciasTermo(pNo *p, char *termo)
 {
   if ((*p) != NULL)
   {
-    printf("OEE!\n");
     if (strcmp(termo, (*p)->termo) > 0)
       dicionarioBuscaOcorrenciasTermo(&(*p)->dir, termo);
     else if (strcmp(termo, (*p)->termo) < 0)
       dicionarioBuscaOcorrenciasTermo(&(*p)->esq, termo);
     else
-    {
-      printf("ACHEI!\n");
       return (*p)->ocorrencias.tamanho;
-    }
   }
 }
 
@@ -188,6 +184,7 @@ void indiceTextosConstroi(Dicionario *vec_textos, Dicionario *vocabulario,
   int n_texto = 0;
   unsigned int termos = 0;
   FILE *leitura;
+  int ocorrencias_gerais;
 
   while (fscanf(e->listaTextos, "%s\n", linha) != EOF)
   {
@@ -196,7 +193,9 @@ void indiceTextosConstroi(Dicionario *vec_textos, Dicionario *vocabulario,
     getToken(leitura, termo, &rFlag);
     while (rFlag != 1)
     {
-      dicionarioInsere(&vec_textos[n_texto], termo, n_texto, &termos);
+      ocorrencias_gerais = dicionarioBuscaOcorrenciasTermo(vocabulario, termo);
+      if (ocorrencias_gerais <= key_lim)
+        dicionarioInsere(&vec_textos[n_texto], termo, n_texto, &termos);
       getToken(leitura, termo, &rFlag);
     }
     rFlag = 0;
