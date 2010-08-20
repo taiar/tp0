@@ -31,11 +31,10 @@ int main(int argc, char *argv[])
   indiceTextosConstroi(textos_keywords, &vocabulario, &in,
       keywords_limite_texto);
 
-  int i;
+  int i, *vec;
   for(i = 0; i < textos_total; i += 1)
   {
-    printf("==========================\n");
-    indiceImprimePalavrasChaves(&textos_keywords[i], 2000);
+    vec = (int*) malloc(sizeof(int)*(textos_keywords[i]->ocorrencias.tamanho));
   }
 
   if (!saidaInicia(&in))

@@ -27,3 +27,10 @@ para uma avaliacao experimental e tiracao de conclusao:
  - relacionar a variacao da proporcao de KEYWORDS_PROPORCAO_APARICAO com a limitacao da quantidade de keywords avaliadas
  - relacionar a variacao do limite de KEYWORD_MIN_CHAR com limitacao da quantidade de keywords avaliadas
  - avaliar qualidade das keywords baseadas nos termos acima
+
+ 
+seria interessante salientar que em um texto longo, uma palavra que aparece apenas uma vez poderia muito bem caracterizá-lo
+ao passo que, em um texto grande, uma palavra que aparece poucas vezes nao seria tao relevante assim.
+
+
+STOP WORDs - falar sobre como a utilização de stop words e o casamento aproximado das palavras influenciariam em tudo.
