@@ -34,11 +34,12 @@ int main(int argc, char *argv[])
   indiceTextosConstroi(textos_keywords, &vocabulario, &in,
       keywords_limite_texto, textos_termos_individual);
 
-  int i;
-  for (i = 0; i < textos_total; i += 1)
-  {
-    printf("%d\n ", textos_termos_individual[i]);
-  }
+  /**
+   * faz o vetor com as palavras e quantas vezes cada uma aparece
+   *       - faz uma funcao recursiva de caminhamento pra percorrer a arvore toda
+   * ordena cada vetor pelo maior
+   * retorna uma porcao pre definida de palavras chaves
+   */
 
 
   if (!saidaInicia(&in))
