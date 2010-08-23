@@ -11,7 +11,8 @@ int main(int argc, char *argv[])
 {
   Entrada in;
   Dicionario vocabulario, *textos_keywords;
-  unsigned int textos_total = 0, termos_total = 0, keywords_limite_texto;
+  unsigned int textos_total = 0, termos_total = 0, keywords_limite_texto,
+      *textos_termos_individual = NULL;
 
   printf("Lendo e inicializando a entrada...\n");
   if (!entradaLe(argc, argv, &in))
@@ -28,14 +29,17 @@ int main(int argc, char *argv[])
 
   printf("Identificando palavras-chave...\n");
   textos_keywords = (Dicionario*) malloc(sizeof(Dicionario) * textos_total);
-  indiceTextosConstroi(textos_keywords, &vocabulario, &in,
-      keywords_limite_texto);
+  textos_termos_individual = (unsigned int*) malloc(sizeof(int) * textos_total);
 
-  int i, *vec;
-  for(i = 0; i < textos_total; i += 1)
+  indiceTextosConstroi(textos_keywords, &vocabulario, &in,
+      keywords_limite_texto, textos_termos_individual);
+
+  int i;
+  for (i = 0; i < textos_total; i += 1)
   {
-    vec = (int*) malloc(sizeof(int)*(textos_keywords[i]->ocorrencias.tamanho));
+    printf("%d\n ", textos_termos_individual[i]);
   }
+
 
   if (!saidaInicia(&in))
     exit(EXIT_FAILURE);

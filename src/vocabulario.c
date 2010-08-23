@@ -176,7 +176,7 @@ void indiceConstroi(pNo *v, Entrada *e, unsigned int *textos,
 }
 
 void indiceTextosConstroi(Dicionario *vec_textos, Dicionario *vocabulario,
-    Entrada *e, unsigned int key_lim)
+    Entrada *e, unsigned int key_lim, unsigned int *n_termos)
 {
   char linha[100];
   char termo[50];
@@ -191,11 +191,15 @@ void indiceTextosConstroi(Dicionario *vec_textos, Dicionario *vocabulario,
     leitura = fopen(linha, "r");
     dicionarioInicia(&vec_textos[n_texto]);
     getToken(leitura, termo, &rFlag);
+
     while (rFlag != 1)
     {
       ocorrencias_gerais = dicionarioBuscaOcorrenciasTermo(vocabulario, termo);
       if (ocorrencias_gerais <= key_lim)
+      {
         dicionarioInsere(&vec_textos[n_texto], termo, n_texto, &termos);
+        n_termos[n_texto] += 1;
+      }
       getToken(leitura, termo, &rFlag);
     }
     rFlag = 0;
