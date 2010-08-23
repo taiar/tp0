@@ -24,7 +24,6 @@ int main(int argc, char *argv[])
   indiceConstroi(&vocabulario, &in, &textos_total, &termos_total);
 
   keywords_limite_texto = textos_total * KEYWORDS_PROPORCAO_APARICAO;
-  printf("Maximo de aparicoes: %d\n", keywords_limite_texto);
   if (!entradaReinicia(&in))
     exit(EXIT_FAILURE);
 
@@ -42,18 +41,12 @@ int main(int argc, char *argv[])
         * textos_termos_individual[i]);
     indiceParaVetorSetCounter();
     indiceParaVetor(&textos_keywords[i], texto_keywords_individual);
-    qsort(texto_keywords_individual, textos_termos_individual[i], sizeof(Keyword), keywordCompare);
-    for(j = 0; j < textos_termos_individual[i]; j += 1)
+    qsort(texto_keywords_individual, textos_termos_individual[i],
+        sizeof(Keyword), keywordCompare);
+    for (j = 0; j < textos_termos_individual[i]; j += 1)
       printf("%s (%d); ", texto_keywords_individual[j].termo, texto_keywords_individual[j].ocorrencias);
-    printf("\n");
+    printf("\n\n");
   }
-
-  /**
-   * faz o vetor com as palavras e quantas vezes cada uma aparece
-   *       - faz uma funcao recursiva de caminhamento pra percorrer a arvore toda
-   * ordena cada vetor pelo maior
-   * retorna uma porcao pre definida de palavras chaves
-   */
 
   if (!saidaInicia(&in))
     exit(EXIT_FAILURE);

@@ -13,6 +13,7 @@ typedef struct
   unsigned int ocorrencias;
 } Keyword;
 
+typedef int (*cmp)(Keyword*, Keyword*);
 int keywordCompare(Keyword*, Keyword*);
 
 //estrutura das listas
@@ -50,7 +51,7 @@ typedef pNo Dicionario;
 static unsigned int indiceParaVetorCounter;
 
 void dicionarioInicia(pNo*);
-void dicionarioInsere(pNo*, char*, int, unsigned int*);
+void dicionarioInsere(pNo*, char*, int, unsigned int*, int*);
 void dicionarioCaminhoCentral(pNo*, FILE*);
 void dicionarioImprimeSaida(pNo*, FILE*);
 void dicionarioImprime(pNo*, int);

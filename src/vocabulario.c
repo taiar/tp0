@@ -2,9 +2,9 @@
 
 int keywordCompare(Keyword *a, Keyword *b)
 {
-  if(a->ocorrencias > b->ocorrencias)
+  if (a->ocorrencias > b->ocorrencias)
     return -1;
-  else if(a->ocorrencias < b->ocorrencias)
+  else if (a->ocorrencias < b->ocorrencias)
     return 1;
   else
     return 0;
@@ -66,7 +66,8 @@ void dicionarioInicia(pNo *d)
   (*d) = NULL;
 }
 
-void dicionarioInsere(pNo *p, char *palavra, int texto, unsigned int *n_termos)
+void dicionarioInsere(pNo *p, char *palavra, int texto, unsigned int *n_termos,
+    int *flagNew)
 {
   if ((*p) == NULL)
   {
@@ -79,11 +80,12 @@ void dicionarioInsere(pNo *p, char *palavra, int texto, unsigned int *n_termos)
     (*p)->esq = NULL;
     (*p)->dir = NULL;
     *n_termos += 1;
+    *flagNew = 1;
   }
   else if (strcmp(palavra, (*p)->termo) > 0)
-    dicionarioInsere(&(*p)->dir, palavra, texto, n_termos);
+    dicionarioInsere(&(*p)->dir, palavra, texto, n_termos, flagNew);
   else if (strcmp(palavra, (*p)->termo) < 0)
-    dicionarioInsere(&(*p)->esq, palavra, texto, n_termos);
+    dicionarioInsere(&(*p)->esq, palavra, texto, n_termos, flagNew);
   else
   {
     pLista aux;
@@ -94,6 +96,7 @@ void dicionarioInsere(pNo *p, char *palavra, int texto, unsigned int *n_termos)
       listaInsere(&(*p)->ocorrencias, texto);
     else
       aux->quantidade += 1;
+    *flagNew = 0;
   }
 }
 
@@ -168,6 +171,7 @@ void indiceConstroi(pNo *v, Entrada *e, unsigned int *textos,
   int rFlag = 0;
   int n_texto = 0;
   FILE *leitura;
+  int fNew;
 
   while (fscanf(e->listaTextos, "%s\n", linha) != EOF)
   {
@@ -175,7 +179,7 @@ void indiceConstroi(pNo *v, Entrada *e, unsigned int *textos,
     getToken(leitura, termo, &rFlag);
     while (rFlag != 1)
     {
-      dicionarioInsere(v, termo, n_texto, termos);
+      dicionarioInsere(v, termo, n_texto, termos, &fNew);
       getToken(leitura, termo, &rFlag);
     }
     rFlag = 0;
@@ -195,6 +199,7 @@ void indiceTextosConstroi(Dicionario *vec_textos, Dicionario *vocabulario,
   unsigned int termos = 0;
   FILE *leitura;
   int ocorrencias_gerais;
+  int fNew = 0;
 
   while (fscanf(e->listaTextos, "%s\n", linha) != EOF)
   {
@@ -207,8 +212,9 @@ void indiceTextosConstroi(Dicionario *vec_textos, Dicionario *vocabulario,
       ocorrencias_gerais = dicionarioBuscaOcorrenciasTermo(vocabulario, termo);
       if (ocorrencias_gerais <= key_lim)
       {
-        dicionarioInsere(&vec_textos[n_texto], termo, n_texto, &termos);
-        n_termos[n_texto] += 1;
+        dicionarioInsere(&vec_textos[n_texto], termo, n_texto, &termos, &fNew);
+        if (fNew)
+          n_termos[n_texto] += 1;
       }
       getToken(leitura, termo, &rFlag);
     }
@@ -225,10 +231,11 @@ void indiceParaVetorSetCounter()
 
 void indiceParaVetor(Dicionario *p, Keyword *k)
 {
-  if((*p) == NULL)
+  if ((*p) == NULL)
     return;
   indiceParaVetor(&(*p)->esq, k);
-  k[indiceParaVetorCounter].ocorrencias = (*p)->ocorrencias.tamanho;
+  k[indiceParaVetorCounter].ocorrencias
+      = (*p)->ocorrencias.primeiro->prox->quantidade;
   strcpy(k[indiceParaVetorCounter].termo, (*p)->termo);
   indiceParaVetorCounter += 1;
   indiceParaVetor(&(*p)->dir, k);
