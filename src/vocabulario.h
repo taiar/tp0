@@ -7,14 +7,16 @@
 
 #include "io.h"
 
-//estrutura das listas
-typedef struct listapal *pLista;
-
 typedef struct
 {
-    char termo[30];
-    unsigned int ocorrencias;
+  char termo[50];
+  unsigned int ocorrencias;
 } Keyword;
+
+int keywordCompare(Keyword*, Keyword*);
+
+//estrutura das listas
+typedef struct listapal *pLista;
 
 typedef struct
 {
@@ -45,17 +47,20 @@ typedef struct no
 } No;
 
 typedef pNo Dicionario;
+static unsigned int indiceParaVetorCounter;
 
 void dicionarioInicia(pNo*);
 void dicionarioInsere(pNo*, char*, int, unsigned int*);
 void dicionarioCaminhoCentral(pNo*, FILE*);
 void dicionarioImprimeSaida(pNo*, FILE*);
 void dicionarioImprime(pNo*, int);
-int  dicionarioBuscaOcorrenciasTermo(pNo*, char*);
+int dicionarioBuscaOcorrenciasTermo(pNo*, char*);
 
-//void indiceConstroi(pNo*, FILE*, unsigned int*, unsigned int*);
 void indiceConstroi(pNo*, Entrada*, unsigned int*, unsigned int*);
-void indiceTextosConstroi(Dicionario*, Dicionario*, Entrada*, unsigned int, unsigned int*);
+void indiceTextosConstroi(Dicionario*, Dicionario*, Entrada*, unsigned int,
+    unsigned int*);
+void indiceParaVetor(Dicionario*, Keyword*);
+void indiceParaVetorSetCounter();
 void indiceTextosRefinaKeywords(Dicionario*, Dicionario*, unsigned int);
 void indiceRemoveKeywordsIrrelevantes(Dicionario*, Dicionario*);
 void indiceImprimePalavrasChaves(pNo*, int);

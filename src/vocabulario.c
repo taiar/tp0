@@ -1,5 +1,15 @@
 #include "vocabulario.h"
 
+int keywordCompare(Keyword *a, Keyword *b)
+{
+  if(a->ocorrencias > b->ocorrencias)
+    return -1;
+  else if(a->ocorrencias < b->ocorrencias)
+    return 1;
+  else
+    return 0;
+}
+
 void listaInicia(Lista *l)
 {
   l->tamanho = 0;
@@ -206,6 +216,22 @@ void indiceTextosConstroi(Dicionario *vec_textos, Dicionario *vocabulario,
     n_texto += 1;
     fclose(leitura);
   }
+}
+
+void indiceParaVetorSetCounter()
+{
+  indiceParaVetorCounter = 0;
+}
+
+void indiceParaVetor(Dicionario *p, Keyword *k)
+{
+  if((*p) == NULL)
+    return;
+  indiceParaVetor(&(*p)->esq, k);
+  k[indiceParaVetorCounter].ocorrencias = (*p)->ocorrencias.tamanho;
+  strcpy(k[indiceParaVetorCounter].termo, (*p)->termo);
+  indiceParaVetorCounter += 1;
+  indiceParaVetor(&(*p)->dir, k);
 }
 
 void indiceImprimePalavrasChaves(pNo *p, int limite)

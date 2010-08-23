@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define KEYWORDS_PROPORCAO_APARICAO .4
+#define KEYWORDS_PROPORCAO_APARICAO .05
 
 #include "io.h"
 #include "vocabulario.h"
@@ -40,6 +40,12 @@ int main(int argc, char *argv[])
   {
     texto_keywords_individual = (Keyword*) malloc(sizeof(Keyword)
         * textos_termos_individual[i]);
+    indiceParaVetorSetCounter();
+    indiceParaVetor(&textos_keywords[i], texto_keywords_individual);
+    qsort(texto_keywords_individual, textos_termos_individual[i], sizeof(Keyword), keywordCompare);
+    for(j = 0; j < textos_termos_individual[i]; j += 1)
+      printf("%s (%d); ", texto_keywords_individual[j].termo, texto_keywords_individual[j].ocorrencias);
+    printf("\n");
   }
 
   /**
