@@ -12,6 +12,12 @@ typedef struct listapal *pLista;
 
 typedef struct
 {
+    char termo[30];
+    unsigned int ocorrencias;
+} Keyword;
+
+typedef struct
+{
   int tamanho;
   pLista primeiro, ultimo;
 } Lista;
