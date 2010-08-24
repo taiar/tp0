@@ -6,7 +6,11 @@
 #include <unistd.h>
 #include <ctype.h>
 
-#define KEYWORD_MIN_CHAR 1
+/**
+ * Esta constante define o menor número de caracteres que uma palavra deve ter
+ * para ser considerada no algoritmo de indexação.
+ */
+#define KEYWORD_MIN_CHAR 3
 
 /**
  * Armazena dados lidos da entrada.
@@ -47,33 +51,6 @@ int saidaInicia(Entrada*);
  * Libera dados utilizados na saida do programa.
  */
 void saidaFree(Entrada*);
-
-/**
- * Verifica se o caractere passado é valido segundo criterios arbitrarios para
- * leitura do arquivo.
- */
-int isChar(char);
-
-/**
- * Verifica se o caractere passado como parâmetro é um espaço.
- */
-int isSpace(char);
-
-/**
- * Verifica se o caractere passado como parâmetro é uma quebra de linha.
- */
-int isLineBreak(char);
-
-/**
- * Transforma caracteres de letras maiúsculas em minúsculas para fins de
- * simplificação.
- */
-char lowerCase(char);
-
-/**
- * Simplifica caracteres acentuados e cedilhas.
- */
-char tiraAcento(char);
 
 /**
  * Lê e armazena em uma variável uma string retirada do arquivo de passado como

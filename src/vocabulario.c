@@ -282,15 +282,12 @@ void indiceRetornaPalavrasChave(Entrada *entrada, Dicionario *textos_keywords,
     fprintf(entrada->similares, "%s;", linha);
 
     for (j = 0; j < textos_total; j += 1)
-      locTxt[i] = i;
+      locTxt[j] = j;
 
     Quicksort(potencialIgualdade, locTxt, textos_total);
 
-    for (k = textos_total - 2; k > textos_total - 10; k -= 1)
-    {
-      printf("%d ", locTxt[k]);
-      fprintf(entrada->similares, "%s;", textos[potencialIgualdade[locTxt[k]]]);
-    }
+    for (k = textos_total - 1; k > textos_total - 1 - (10); k -= 1)
+      fprintf(entrada->similares, "%s;", textos[locTxt[k]]);
 
     zeraVetor(potencialIgualdade, textos_total);
     fprintf(entrada->palavrasChave, "\n");

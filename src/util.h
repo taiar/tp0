@@ -1,18 +1,14 @@
-/*
- * util.h
- *
- *  Created on: 24/08/2010
- *      Author: taiar
- */
-
 #ifndef UTIL_H_
 #define UTIL_H_
 
+/**
+ * Coloca todos os valores do vetor de inteiros como 0 (zero)
+ */
 void zeraVetor(unsigned int*, int);
-void ssort(unsigned int*, int);
-void particao(unsigned int*, int, int, int*, int*);
-void ordena(unsigned int*, int, int);
-void quicksort(unsigned int*, int);
+
+/**
+ * Funções do método de ordenação Quicksort (versão recursiva)
+ */
 void Particao(unsigned int*, unsigned int*, int, int, int*, int*);
 void Ordena(unsigned int*, unsigned int*, int, int);
 void Quicksort(unsigned int*, unsigned int*, int);
