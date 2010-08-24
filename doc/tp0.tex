@@ -1,13 +1,3 @@
-%	Documentação do Trabalho Prático 0 de AEDSIII
-%	@Arlei Lopes da Silva
-%
-%	* Você pode identificar erros de grafia através do seguinte comando linux:
-%		aspell --encoding="iso8859-1" -c -t=tex --lang="pt_BR" tp0.tex
-%	
-%	Tenha cuidado com problemas de codificação, você pode perder muito tempo com isso (ter que reescrever o texto por que os caracteres % acendutados não aparecem corretamento no pdf, por exemplo). Se você usa Vi/Vim, ele identifica a codificação sozinho, em editores do tipo % Kate/Kwrite você pode definir a codificação em Ferramentas/Codificação, escolha a opção Oeste Europeu (iso8859-1).
-%	Para compilar o texto utilize o comando make (foi criado um Makefile)
-%	Para maiores informações consulte referências sobre Latex
-
 \documentclass[12pt]{article}
 \usepackage{sbc-template}
 \usepackage{graphicx}
@@ -15,76 +5,81 @@
 \usepackage{subfigure}
 \usepackage{times,amsmath,epsfig}
 \usepackage{graphicx,url}
- \makeatletter
- \newif\if@restonecol
- \makeatother
- \let\algorithm\relax
- \let\endalgorithm\relax 
+  \makeatletter
+  \newif\if@restonecol
+  \makeatother
+  \let\algorithm\relax
+  \let\endalgorithm\relax
 \usepackage[lined,algonl,ruled]{algorithm2e}
 \usepackage{multirow}
-\usepackage[brazil]{babel}   
-\usepackage[latin1]{inputenc}  
+\usepackage[brazil]{babel}
+\usepackage[utf8]{inputenc}
 
 \sloppy
 
-\title{TRABALHO PRÁTICO 0: \\ Simulador de um elevador}
+\title{Algoritmos e Estruturas de Dados 3 \\ Trabalho PrÃ¡tico 0 \\
+\huge{Similaridade de Textos}}
 
-\author{Arlei Lopes da Silva}
+\author{AndrÃ© Taiar Marinho Oliveira}
 
-\address{Departamento de Ciência da Computação -- Universidade Federal de Minas Gerais (UFMG)
-\email{arlei@dcc.ufmg.br}
+\address{Departamento de CiÃªncia da ComputaÃ§Ã£o -- Universidade Federal de Minas Gerais (UFMG)
+\email{taiar@dcc.ufmg.br}
 }
 
-\begin{document} 
+\begin{document}
 
 \maketitle
 
-\begin{resumo} 
-Este relatório descreve um controlador de elevador e um simulador orientado a eventos para a geração de requisições de usuários de elevador. Uma estratégia de controle simples, similar à utilizada pela maioria dos elevadores, foi empregada e avaliada em termos de diferentes parâmetros. Os resultados mostram que, além de variáveis mais simples como número de andares e capacidade do elevador, fatores mais complexos, como a popularidade dos trajetos, também afetam o tempo de simulação e o tempo de espera dos usuários. O trabalho cumpriu seus principais objetivos: (1) a prática da linguagem C e (2) a introdução ao estudo de problemas complexos.
+\begin{resumo}
+RecuperaÃ§Ã£o de InformaÃ§Ã£o (RI) Ã© uma Ã¡rea da computaÃ§Ã£o  que lida com o armazenamento de documentos 
+e a recuperaÃ§Ã£o automÃ¡tica de informaÃ§Ã£o associada a eles. Ã‰ uma ciÃªncia de pesquisa sobre busca 
+por informaÃ§Ãµes em documentos, busca pelos documentos propriamente ditos, busca por metadados que 
+descrevam documentos e busca em banco de dados, sejam eles relacionais e isolados ou banco de 
+dados interligados em rede de hipermÃ­dia, tais como a World Wide Web.
+
+Uma boa forma de classificar, definir e reconhecer semelhanÃ§as entre textos Ã© definindo o
+seu assunto de acordo com as suas palavras chaves. Com o crescimento da
+utilizaÃ§Ã£o de sistemas de RecuperaÃ§Ã£o de InformaÃ§Ã£o e sua utilizaÃ§Ã£o massiva na
+atualidade, o problema de se descobrir palavras-chave de um texto tem sido muito
+explorado.
 \end{resumo}
 
-\section{INTRODUÇÃO}
+\section{IntroduÃ§Ã£o}
 
-Neste trabalho, nós descrevemos, implementamos e analisamos um controlador de elevador. Para fins de análise, foi implementado um simulador orientado a eventos para a geração de requisições de transporte. Os principais objetivos do trabalho são o exercício da linguagem C, a discussão sobre problemas e complexos e sua solução.
+Neste trabalho, ns descrevemos, implementamos e analisamos um controlador de elevador. Para fins de anlise, foi implementado um simulador orientado a eventos para a gerao de requisies de transporte. Os principais objetivos do trabalho so o exerccio da linguagem C, a discusso sobre problemas e complexos e sua soluo.
+O problema especfico a ser estudado neste trabalho  a implementao de um simulador para a gerao de chamadas de passageiros de um elevador e a avaliao de uma estratgia de controle para o atendimento das chamadas. A estratgia de controle do elevador deve atender as requisies obedecendo  restrio de capacidade do elevador (lotao mxima). A contagem de tempo  realizada atravs de uma unidade bsica, denominada Jepslon. Um tempo total de 1 Jepslon  necessrio para que o elevador percorra a distncia entre dois andares ou para que ele realize uma operao de carga ou descarga de passageiros.
+A estratgia de controle proposta neste trabalho  similar  aquela utilizada pela maioria dos elevadores convencionais. Em cada instante de tempo, o elevador pode estar percorrendo os andares nos sentidos para cima ou para baixo. Ao passar por cada andar, o elevador verifica se existem requisies de descarga de passageiros para o andar corrente ou requisies de carga de passageiros que desejam seguir o sentido atual do elevador. No caso de requisies de carga,  verificada a restrio de capacidade do elevador.
+O simulador desenvolvido, que gera requisies para o elevador,  simples. Dado um conjunto de requisies, que representam passageiros com um andar de origem e destino, alm de um instante de gerao da requisio (momento em que o passageiro aperta o boto chamando o elevador), o simulador gera cada uma das requisies no tempo correto. Essas requisies so carregadas na memria do elevador.
+Uma anlise experimental do tempo de execuo do simulador e do tempo mdio de espera dos usurios foi realizada. Para isso, foi necessria a criao de um gerador de requisies. A modelagem do tempo de simulao em termos das caractersticas do problema no  uma tarefa simples, j que ela precisa considerar fatores como a distribuio dos trajetos e distribuio dos tempos entre as requisies. Para ilustrar o efeito desses fatores, ns avaliamos como a popularidade dos trajetos afeta o elevador.
+O restante deste relatrio  organizado da seguinte forma. A Seo~\ref{trabalhos_relacionados} discute alguns temas relacionados ao trabalho. A Seo~\ref{solucao_proposta} descreve o simulador, o elevador e a estratgia de controle proposta. A Seo~\ref{implementacao} trata de detalhes especficos da implementao do trabalho. A Seo~\ref{avaliacao_experimental} contm a avaliao experimental do controlador de elevador proposto. A Seo~\ref{conclusao} conclui o trabalho.
 
-	O problema específico a ser estudado neste trabalho é a implementação de um simulador para a geração de chamadas de passageiros de um elevador e a avaliação de uma estratégia de controle para o atendimento das chamadas. A estratégia de controle do elevador deve atender as requisições obedecendo à restrição de capacidade do elevador (lotação máxima). A contagem de tempo é realizada através de uma unidade básica, denominada Jepslon. Um tempo total de 1 Jepslon é necessário para que o elevador percorra a distância entre dois andares ou para que ele realize uma operação de carga ou descarga de passageiros.
-
-	A estratégia de controle proposta neste trabalho é similar à aquela utilizada pela maioria dos elevadores convencionais. Em cada instante de tempo, o elevador pode estar percorrendo os andares nos sentidos para cima ou para baixo. Ao passar por cada andar, o elevador verifica se existem requisições de descarga de passageiros para o andar corrente ou requisições de carga de passageiros que desejam seguir o sentido atual do elevador. No caso de requisições de carga, é verificada a restrição de capacidade do elevador. 
-
-	O simulador desenvolvido, que gera requisições para o elevador, é simples. Dado um conjunto de requisições, que representam passageiros com um andar de origem e destino, além de um instante de geração da requisição (momento em que o passageiro aperta o botão chamando o elevador), o simulador gera cada uma das requisições no tempo correto. Essas requisições são carregadas na memória do elevador.
-
-	Uma análise experimental do tempo de execução do simulador e do tempo médio de espera dos usuários foi realizada. Para isso, foi necessária a criação de um gerador de requisições. A modelagem do tempo de simulação em termos das características do problema não é uma tarefa simples, já que ela precisa considerar fatores como a distribuição dos trajetos e distribuição dos tempos entre as requisições. Para ilustrar o efeito desses fatores, nós avaliamos como a popularidade dos trajetos afeta o elevador.
-
-	
-	O restante deste relatório é organizado da seguinte forma. A Seção~\ref{trabalhos_relacionados} discute alguns temas relacionados ao trabalho. A Seção~\ref{solucao_proposta} descreve o simulador, o elevador e a estratégia de controle proposta. A Seção~\ref{implementacao} trata de detalhes específicos da implementação do trabalho. A Seção~\ref{avaliacao_experimental} contém a avaliação experimental do controlador de elevador proposto. A Seção~\ref{conclusao} conclui o trabalho.
-
-\section{REFERÊNCIAS RELACIONADAS}
+\section{REFERNCIAS RELACIONADAS}
 \label{trabalhos_relacionados}
 
-Podemos dividir as referências associadas ao problema estudado e à solução proposta dentre os seguintes grupos:
+Podemos dividir as referncias associadas ao problema estudado e  soluo proposta dentre os seguintes grupos:
 \begin{itemize}
-\item \textbf{Escalonamento, análise de desempenho:} Um grande número de problemas em computação pode ser modelado como um conjunto de requisições à um dado serviço. Nesse caso, a estratégia de atendimento à essas requisições pode afetar o desempenho do serviço significativamente. Além disso, também é importante entender as características da entrada (carga), já que elas determinam diversas características do serviço. Mais informações sobre o assunto podem ser encontradas em \cite{jain1991acs}.
-\item \textbf{Linguagem C:} 
-	Todo o trabalho foi implementado em linguagem de programação C. A linguagem C é uma linguagem de propósito geral amplamente utilizada no desenvolvimento de sistemas de alto desempenho, de tempo real, sistemas operacionais, compiladores, dentre outros. O compilador mais utilizado para a linguagem C é o GCC (desenvolvido pelo projeto GNU). Mais informações sobre a linguagem C podem ser encontradas em \cite{kernighan1988cpl}.
-\item \textbf{Projeto e análise de algoritmos:} Algoritmos são procedimentos computacionais capazes de resolver diversos problemas do mundo real. O problema de controlar um elevador, estudado neste trabalho, é um dos exemplos de como algoritmos estão presentes no nosso dia-a-dia. O estudo de algoritmos é essencial para o desenvolvimento de técnicas mais eficientes e eficazes para a solução desses problemas. Mais informações sobre o projeto e análise de algoritmos podem ser encontradas em \cite{ziviani2007pai,cormen2001ia,sedgewick2001acp}
+\item \textbf{Escalonamento, anlise de desempenho:} Um grande nmero de problemas em computao pode ser modelado como um conjunto de requisies  um dado servio. Nesse caso, a estratgia de atendimento  essas requisies pode afetar o desempenho do servio significativamente. Alm disso, tambm  importante entender as caractersticas da entrada (carga), j que elas determinam diversas caractersticas do servio. Mais informaes sobre o assunto podem ser encontradas em \cite{jain1991acs}.
+\item \textbf{Linguagem C:}
+	Todo o trabalho foi implementado em linguagem de programao C. A linguagem C  uma linguagem de propsito geral amplamente utilizada no desenvolvimento de sistemas de alto desempenho, de tempo real, sistemas operacionais, compiladores, dentre outros. O compilador mais utilizado para a linguagem C  o GCC (desenvolvido pelo projeto GNU). Mais informaes sobre a linguagem C podem ser encontradas em \cite{kernighan1988cpl}.
+\item \textbf{Projeto e anlise de algoritmos:} Algoritmos so procedimentos computacionais capazes de resolver diversos problemas do mundo real. O problema de controlar um elevador, estudado neste trabalho,  um dos exemplos de como algoritmos esto presentes no nosso dia-a-dia. O estudo de algoritmos  essencial para o desenvolvimento de tcnicas mais eficientes e eficazes para a soluo desses problemas. Mais informaes sobre o projeto e anlise de algoritmos podem ser encontradas em \cite{ziviani2007pai,cormen2001ia,sedgewick2001acp}
 \end{itemize}
 
-\section{SOLUÇÃO PROPOSTA}
+\section{SOLUO PROPOSTA}
 \label{solucao_proposta}
 
-A solução proposta para a simulação discreta do funcionamento de um elevador utiliza um conjunto de estruturas de dados que contêm informações sobre o estado da simulação, do elevador, registros de requisições, dentre outros. Essas estruturas são manipuladas através de um conjunto de algoritmos que descrevem o funcionamento da solução. 
+A soluo proposta para a simulao discreta do funcionamento de um elevador utiliza um conjunto de estruturas de dados que contm informaes sobre o estado da simulao, do elevador, registros de requisies, dentre outros. Essas estruturas so manipuladas atravs de um conjunto de algoritmos que descrevem o funcionamento da soluo.
 
-O simulador implementado tem como base um temporizador contínuo, ou seja, cada instante de simulação corresponde à uma iteração do simulador. Uma outra opção seria utilizar como base a contagem das requisições. Os critérios que levaram à escolha da iteração do simulador em cada instante são: (1) a simplicidade de implementação, (2) mapeamento direto entre tempo de execução e tempo de simulação e (3) o custo computacional reduzido de avaliar cada instante de simulação, supondo-se que as requisições sejam bem distribuídas ao longo do tempo.
+O simulador implementado tem como base um temporizador contnuo, ou seja, cada instante de simulao corresponde  uma iterao do simulador. Uma outra opo seria utilizar como base a contagem das requisies. Os critrios que levaram  escolha da iterao do simulador em cada instante so: (1) a simplicidade de implementao, (2) mapeamento direto entre tempo de execuo e tempo de simulao e (3) o custo computacional reduzido de avaliar cada instante de simulao, supondo-se que as requisies sejam bem distribudas ao longo do tempo.
 
-O controle do elevador é baseado no que chamamos de \textit{requisição corrente}, que é a requisição que define o sentido do elevador, e é sempre a requisição do andar mais alto quando o elevador está subindo ou a requisição do andar mais baixo quando o elevador está descendo. Através da identificação de uma requisição corrente é possível determinar o trajeto do elevador ao longo do tempo. Durante o percurso na direção de atender uma requisição corrente, outras requisições podem ser atendidas, sempre considerando as restrições de espaço do elevador.
+O controle do elevador  baseado no que chamamos de \textit{requisio corrente}, que  a requisio que define o sentido do elevador, e  sempre a requisio do andar mais alto quando o elevador est subindo ou a requisio do andar mais baixo quando o elevador est descendo. Atravs da identificao de uma requisio corrente  possvel determinar o trajeto do elevador ao longo do tempo. Durante o percurso na direo de atender uma requisio corrente, outras requisies podem ser atendidas, sempre considerando as restries de espao do elevador.
 
-A seguir, nós descrevemos as principais estruturas de dados e algoritmos propostos. Nós analisamos a complexidade dos algoritmos em termos do número de requisições ($n$), do número de andares ($a$) e da capacidade do elevador ($c$). A complexidade de espaço será determinada com base nas estruturas de dados e na análise do algoritmo principal, que determina a complexidade da solução.
+A seguir, ns descrevemos as principais estruturas de dados e algoritmos propostos. Ns analisamos a complexidade dos algoritmos em termos do nmero de requisies ($n$), do nmero de andares ($a$) e da capacidade do elevador ($c$). A complexidade de espao ser determinada com base nas estruturas de dados e na anlise do algoritmo principal, que determina a complexidade da soluo.
 
 \subsection{Estruturas de dados}
 
-\subsubsection{Requisição:} 
+\subsubsection{Requisio:}
 
-Armazena informações sobre uma requisição de transporte para o elevador.
+Armazena informaes sobre uma requisio de transporte para o elevador.
 \begin{algorithm}[h!]
 \begin{footnotesize}
 
@@ -92,14 +87,14 @@ Armazena informações sobre uma requisição de transporte para o elevador.
 	hora requisicao\;
 	andar atual\;
 	andar desejado\;
-	
+
 \caption{Requisicao}%
 \end{footnotesize}
 \end{algorithm}
 
 \subsubsection{Simulador}
 
-Armazena informações para a simulação, ou seja, uma fila de requisições de transporte a ser tratada pelo elevador. A complexidade de espaço do armazenamento das requisições é $O(n)$, onde $n$ é o número de requisições.
+Armazena informaes para a simulao, ou seja, uma fila de requisies de transporte a ser tratada pelo elevador. A complexidade de espao do armazenamento das requisies  $O(n)$, onde $n$  o nmero de requisies.
 \begin{algorithm}[h!]
 \begin{footnotesize}
 	numero de requisicoes\;
@@ -109,15 +104,15 @@ Armazena informações para a simulação, ou seja, uma fila de requisições de trans
 \end{footnotesize}
 \end{algorithm}
 
-\subsubsection{Registro de requisição}
+\subsubsection{Registro de requisio}
 
-Armazena um registro de requisição, que é uma unidade da memória de requisições a serem atendidas pelo elevador. Possui, além da requisição, um tipo, que a define se a operação necessária é de carga ou descarga de passageiro. 
+Armazena um registro de requisio, que  uma unidade da memria de requisies a serem atendidas pelo elevador. Possui, alm da requisio, um tipo, que a define se a operao necessria  de carga ou descarga de passageiro.
 \begin{algorithm}[h!]
 \begin{footnotesize}
 
 	requisicao\;
 	tipo\;
-	
+
 \caption{Registro de requisicao}%
 \end{footnotesize}
 \end{algorithm}
@@ -125,7 +120,7 @@ Armazena um registro de requisição, que é uma unidade da memória de requisições 
 
 \subsubsection{Elevador}
 
-Armazena informações sobre o elevador, como seu estado e algumas restrições definidas através do ambiente de execução. Contém uma lista de registros que representa a memória de requisições do elevador. A complexidade de espaço do armazenamento dos registros é $O(n)$, onde $n$ é o número de requisições.
+Armazena informaes sobre o elevador, como seu estado e algumas restries definidas atravs do ambiente de execuo. Contm uma lista de registros que representa a memria de requisies do elevador. A complexidade de espao do armazenamento dos registros  $O(n)$, onde $n$  o nmero de requisies.
 \begin{algorithm}[h!]
 \begin{footnotesize}
 
@@ -136,7 +131,7 @@ Armazena informações sobre o elevador, como seu estado e algumas restrições defi
 	sentido\;
 	numero de registros\;
 	registros\;
-	
+
 \caption{Elevador}%
 \end{footnotesize}
 \end{algorithm}
@@ -144,9 +139,9 @@ Armazena informações sobre o elevador, como seu estado e algumas restrições defi
 
 \subsection{Algoritmos}
 
-\subsubsection{Atende requisição de carga}
+\subsubsection{Atende requisio de carga}
 
-Realiza o atendimento de uma requisição de carga para o elevador. No caso da requisição atendida ser a corrente, o elevador altera o sentido de seu movimento. Cada requisição de carga está sujeita à limitação de espaço (lotação máxima) do elevador. Além disso, uma requisição de carga só é atendida quando o elevador se movimenta no sentido do andar de destino da requisição. Caso contrário, a requisição deve aguardar a passagem do elevador no futuro. A complexidade desse algoritmo em termos de tempo de execução é $O(n)$, onde $n$ é o número de requisições, devido ao custo de identificação da requisição corrente, realizado através de uma busca linear.
+Realiza o atendimento de uma requisio de carga para o elevador. No caso da requisio atendida ser a corrente, o elevador altera o sentido de seu movimento. Cada requisio de carga est sujeita  limitao de espao (lotao mxima) do elevador. Alm disso, uma requisio de carga s  atendida quando o elevador se movimenta no sentido do andar de destino da requisio. Caso contrrio, a requisio deve aguardar a passagem do elevador no futuro. A complexidade desse algoritmo em termos de tempo de execuo  $O(n)$, onde $n$  o nmero de requisies, devido ao custo de identificao da requisio corrente, realizado atravs de uma busca linear.
 \begin{algorithm}[h!]
 \begin{footnotesize}
 
@@ -156,14 +151,14 @@ Realiza o atendimento de uma requisição de carga para o elevador. No caso da req
 
 	Atualiza lotacao elevador\;
 	Gera requisicao de descarga\;
-	
+
 \caption{atende-requisicao-carga(elevador, registro requisicao)}%
 \end{footnotesize}
 \end{algorithm}
 
-\subsubsection{Atende requisição de descarga}
+\subsubsection{Atende requisio de descarga}
 
-Similar ao atendimento de uma requisição de carga, apesar de não estar sujeita à restrições de capacidade do elevador. A complexidade desse algoritmo em termos de tempo de execução também é $O(n)$.
+Similar ao atendimento de uma requisio de carga, apesar de no estar sujeita  restries de capacidade do elevador. A complexidade desse algoritmo em termos de tempo de execuo tambm  $O(n)$.
 \begin{algorithm}[h!]
 \begin{footnotesize}
 
@@ -174,7 +169,7 @@ Similar ao atendimento de uma requisição de carga, apesar de não estar sujeita à
 	Atualiza lotacao do elevador\;
 	gera relatorio de atendimento da requisicao\;
 	apaga registro da memoria do elevador\;
-		
+
 \caption{atende-requisicao-descarga(elevador, registro requisicao)}%
 \end{footnotesize}
 \end{algorithm}
@@ -182,7 +177,7 @@ Similar ao atendimento de uma requisição de carga, apesar de não estar sujeita à
 
 \subsubsection{Opera elevador}
 
-Controla a movimentação do elevador ao longo do tempo. Caso haja alguma requisição a ser atendida em um dado momento, ou seja requisições para o andar atual, aquele instante será utilizado para o atendimento dessas requisições. Caso contrário, é identificada a requisição corrente e o elevador é movimentado no sentido dessa requisição. A complexidade desse algoritmo em termos de tempo de execução é $O(n^2)$, onde $n$ é o número de requisições, que corresponde ao custo de atender toda a fila de requisições, sendo que o atendimento de cada requisição tem custo $O(n)$. 
+Controla a movimentao do elevador ao longo do tempo. Caso haja alguma requisio a ser atendida em um dado momento, ou seja requisies para o andar atual, aquele instante ser utilizado para o atendimento dessas requisies. Caso contrrio,  identificada a requisio corrente e o elevador  movimentado no sentido dessa requisio. A complexidade desse algoritmo em termos de tempo de execuo  $O(n^2)$, onde $n$  o nmero de requisies, que corresponde ao custo de atender toda a fila de requisies, sendo que o atendimento de cada requisio tem custo $O(n)$.
 \begin{algorithm}[h!]
 \begin{footnotesize}
 
@@ -192,7 +187,7 @@ Controla a movimentação do elevador ao longo do tempo. Caso haja alguma requisiç
 	}{
 		movimenta elevador no sentido da requisicao corrente\;
 	}
-		
+
 \caption{opera-elevador(elevador, tempo)}%
 \end{footnotesize}
 \end{algorithm}
@@ -200,13 +195,13 @@ Controla a movimentação do elevador ao longo do tempo. Caso haja alguma requisiç
 
 \subsubsection{Simula elevador}
 
-Determina o funcionamento da simulação. Para cada instante de tempo, em que haja uma requisição (na fila do simulador ou na memória do elevador), o elevador é operado (segundo a função opera-elevador), e as requisições de carga para aquele dado instante são armazenadas na memória do elevador, segundo a fila de requisições do simulador. Determinar a complexidade da simulação não é uma tarefa trivial, já que depende do tempo total de simulação ($t$). Devido ao custo de operação do elevador (função $opera-elevador$), sabemos que a complexidade de tempo do algoritmo é $O(n^2\times t)$. Além disso, $t$ é inversamente proporcional à capacidade do elevador ($c$) e diretamente proporcional ao número de andares ($a$) e ao número de requisições ($n$). No entanto, a relação entre $t$, $c$, $a$ e $n$ é afetada por: 
+Determina o funcionamento da simulao. Para cada instante de tempo, em que haja uma requisio (na fila do simulador ou na memria do elevador), o elevador  operado (segundo a funo opera-elevador), e as requisies de carga para aquele dado instante so armazenadas na memria do elevador, segundo a fila de requisies do simulador. Determinar a complexidade da simulao no  uma tarefa trivial, j que depende do tempo total de simulao ($t$). Devido ao custo de operao do elevador (funo $opera-elevador$), sabemos que a complexidade de tempo do algoritmo  $O(n^2\times t)$. Alm disso, $t$  inversamente proporcional  capacidade do elevador ($c$) e diretamente proporcional ao nmero de andares ($a$) e ao nmero de requisies ($n$). No entanto, a relao entre $t$, $c$, $a$ e $n$  afetada por:
 \begin{itemize}
-\item A popularidade dos trajetos no elevador: o que afeta o tempo de transporte, se caminhos mais longos tendem a ser mais frequentes o tempo de simulação aumenta.
-\item O tempo entre as requisições: se as requisições forem muito separadas no tempo, a simulação tende a ser longa, além disso, isso pode reduzir a taxa de utilização do elevador, através da frequência de trajetos em que elevador esteja quase vazio.
+\item A popularidade dos trajetos no elevador: o que afeta o tempo de transporte, se caminhos mais longos tendem a ser mais frequentes o tempo de simulao aumenta.
+\item O tempo entre as requisies: se as requisies forem muito separadas no tempo, a simulao tende a ser longa, alm disso, isso pode reduzir a taxa de utilizao do elevador, atravs da frequncia de trajetos em que elevador esteja quase vazio.
 \end{itemize}
 
-Acreditamos que a modelagem do problema considerando diferentes distribuições de popularidade e tempos entre requisições não está no escopo deste trabalho. A complexidade de espaço do algoritmo é $O(n)$, onde $n$ é o número que requisições do elevador, já que é necessário é armazenamento de cada requisição na fila do simulador e na memória do elevador.
+Acreditamos que a modelagem do problema considerando diferentes distribuies de popularidade e tempos entre requisies no est no escopo deste trabalho. A complexidade de espao do algoritmo  $O(n)$, onde $n$  o nmero que requisies do elevador, j que  necessrio  armazenamento de cada requisio na fila do simulador e na memria do elevador.
 \begin{algorithm}[h!]
 \begin{footnotesize}
 
@@ -216,52 +211,52 @@ Acreditamos que a modelagem do problema considerando diferentes distribuições de
 		Registra requisicoes na memoria do elevador de acordo com o simulador\;
 		tempo++\;
 	}
-		
+
 \caption{simula(sequencia requisicoes, ambiente)}%
 \end{footnotesize}
 \end{algorithm}
 
-\section{IMPLEMENTAÇÃO}
+\section{IMPLEMENTAO}
 \label{implementacao}
 
-\subsection{Código}
+\subsection{Cdigo}
 
 \subsubsection{Arquivos .c}
 
 \begin{itemize}
 \item \textbf{principal.c:} Arquivo principal do programa que implementa o simulador do elevador.
-\item \textbf{simulador.c:} Define as funções relacionadas à simulação do elevador.
-\item \textbf{lista.c:} Define funções relacionadas a manipulação de um TAD lista implementada através de apontadores.
-\item \textbf{fila.c:}  Define as estruturas de dados e cabeçalhos de funções relacionadas a manipulação de um TAD fila implementada através de apontadores.
+\item \textbf{simulador.c:} Define as funes relacionadas  simulao do elevador.
+\item \textbf{lista.c:} Define funes relacionadas a manipulao de um TAD lista implementada atravs de apontadores.
+\item \textbf{fila.c:}  Define as estruturas de dados e cabealhos de funes relacionadas a manipulao de um TAD fila implementada atravs de apontadores.
 \end{itemize}
 
 \subsubsection{Arquivos .h}
 
 \begin{itemize}
-\item \textbf{simulador.h:}  Define as estruturas de dados e cabeçalhos de funções relacionadas a simulação do elevador
-\item \textbf{lista.h:} Define as estruturas de dados e cabeçalhos de funções relacionadas à manipulação de um TAD lista implementada através de apontadores.
-\item \textbf{fila.h:} Define as estruturas de dados e cabeçalhos de funções relacionadas a manipulação de um TAD fila implementada através de apontadores.
+\item \textbf{simulador.h:}  Define as estruturas de dados e cabealhos de funes relacionadas a simulao do elevador
+\item \textbf{lista.h:} Define as estruturas de dados e cabealhos de funes relacionadas  manipulao de um TAD lista implementada atravs de apontadores.
+\item \textbf{fila.h:} Define as estruturas de dados e cabealhos de funes relacionadas a manipulao de um TAD fila implementada atravs de apontadores.
 
 \end{itemize}
 
-\subsection{Compilação}
+\subsection{Compilao}
 
-O programa deve ser compilado através do compilador GCC através de um makefile ou do seguinte comando:
+O programa deve ser compilado atravs do compilador GCC atravs de um makefile ou do seguinte comando:
 
 \begin{footnotesize}
 \begin{verbatim} gcc principal.c simulador.c fila.c lista.c -o tp0 \end{verbatim}
 \end{footnotesize}
 
-\subsection{Execução}
+\subsection{Execuo}
 
-A execução do programa tem como parâmetros:
+A execuo do programa tem como parmetros:
 \begin{itemize}
-\item Um arquivo de descrição do ambiente.
-\item Um arquivo de requisições.
-\item Um arquivo de saída.
+\item Um arquivo de descrio do ambiente.
+\item Um arquivo de requisies.
+\item Um arquivo de sada.
 \end{itemize}
 
-O comando para a execução do programa é da forma:
+O comando para a execuo do programa  da forma:
 
 \begin{footnotesize}
 \begin{verbatim} ./tp0 -a <arquivo de ambiente> -r <arquivo de requisicoes> -s <arquivo de saida> \end{verbatim}
@@ -269,9 +264,9 @@ O comando para a execução do programa é da forma:
 
 \subsubsection{Formato da entrada}
 
-O arquivo de descrição do ambiente contém apenas uma linha onde são definidos o número de andares do prédio atendido pelo elevador e a capacidade de elevador, separados por espaço. Já o arquivo de requisições contém o número de requisições na primeira linha seguido de cada uma das requisições. 
+O arquivo de descrio do ambiente contm apenas uma linha onde so definidos o nmero de andares do prdio atendido pelo elevador e a capacidade de elevador, separados por espao. J o arquivo de requisies contm o nmero de requisies na primeira linha seguido de cada uma das requisies.
 
-Cada requisição contém um identificador, o instante de chamada do elevador (que tem como base um temporizador sequencial), o andar de origem do passageiro e o andar desejado. Um exemplo de arquivo de requisições é dado a seguir:
+Cada requisio contm um identificador, o instante de chamada do elevador (que tem como base um temporizador sequencial), o andar de origem do passageiro e o andar desejado. Um exemplo de arquivo de requisies  dado a seguir:
 
 \begin{footnotesize}
 \begin{verbatim}
@@ -282,9 +277,9 @@ Cada requisição contém um identificador, o instante de chamada do elevador (que 
 \end{verbatim}
 \end{footnotesize}
 
-\subsubsection{Formato da saída}
+\subsubsection{Formato da sada}
 
-A saída do programa, armazenada em um arquivo de saída, contém informações sobre todas as requisições atendidas.  Para cada requisição as informações de interesse são o identificador da requisição, o tempo de espera de carga (até que a pessoa entre no elevador) e o tempo de espera dentro do elevador. A seguir, a saída correspondente à entrada apresentada na seção anterior.
+A sada do programa, armazenada em um arquivo de sada, contm informaes sobre todas as requisies atendidas.  Para cada requisio as informaes de interesse so o identificador da requisio, o tempo de espera de carga (at que a pessoa entre no elevador) e o tempo de espera dentro do elevador. A seguir, a sada correspondente  entrada apresentada na seo anterior.
 
 \begin{footnotesize}
 \begin{verbatim}
@@ -303,52 +298,52 @@ espera elevador	:31
 \end{footnotesize}
 
 
-\section{AVALIAÇÃO EXPERIMENTAL}
+\section{AVALIAO EXPERIMENTAL}
 \label{avaliacao_experimental}
 
-Nesta seção nós avaliamos a estratégia de controle de elevador proposta e o simulador implementado em termos do tempo de execução (em segundos) e do tempo total de espera dos usuários (em Jepslons) para diferentes números de andares, capacidades do elevador, números de requisições e popularidades de trajetos. O tempo total de espera é a soma dos tempos de espera para entrar no elevador e para chegar ao andar desejado. Os experimentos foram executados em um computador pessoal com sistema operacional Suse Linux, processador AMD Athlon 3500+ 64 bits e 1GB de memória principal.
+Nesta seo ns avaliamos a estratgia de controle de elevador proposta e o simulador implementado em termos do tempo de execuo (em segundos) e do tempo total de espera dos usurios (em Jepslons) para diferentes nmeros de andares, capacidades do elevador, nmeros de requisies e popularidades de trajetos. O tempo total de espera  a soma dos tempos de espera para entrar no elevador e para chegar ao andar desejado. Os experimentos foram executados em um computador pessoal com sistema operacional Suse Linux, processador AMD Athlon 3500+ 64 bits e 1GB de memria principal.
 
-Como destacado anteriormente, o tempo de execução provê, além do tempo para que toda a simulação seja realizada, uma aproximação sobre o quão demorado é o atendimento de todas as requisições do elevador (já que cada instante de tempo é simulado em uma iteração). Já o tempo de espera pelo elevador é uma maneira simples de avaliar a qualidade do serviço prestado. Outros critérios como utilização do elevador, distância total percorrida pelo elevador, dentre outros, poderiam ser avaliados. Além disso, também seria interessante considerar como o tempo entre as requisições afeta o elevador, no entanto, devido à restrições de tempo e espaço, não avaliaremos todos os parâmetros da simulação. 
+Como destacado anteriormente, o tempo de execuo prov, alm do tempo para que toda a simulao seja realizada, uma aproximao sobre o quo demorado  o atendimento de todas as requisies do elevador (j que cada instante de tempo  simulado em uma iterao). J o tempo de espera pelo elevador  uma maneira simples de avaliar a qualidade do servio prestado. Outros critrios como utilizao do elevador, distncia total percorrida pelo elevador, dentre outros, poderiam ser avaliados. Alm disso, tambm seria interessante considerar como o tempo entre as requisies afeta o elevador, no entanto, devido  restries de tempo e espao, no avaliaremos todos os parmetros da simulao.
 
-As entradas para a simulação do elevador foram geradas a partir de um gerador sintético de requisições. Esse gerador recebe como parâmetros: (1) o número de andares, (2) a capacidade do elevador, (3) um atributo que determina a popularidade dos trajetos e (4) o número de requisições. Como saída, o gerador cria um arquivo de ambiente e um arquivo de requisições. O atributo que determina a popularidade dos trajetos pode ser: (1) escolha aleatória, ou seja, trajetos escolhidos aleatoriamente, (2) probabilidade do trajeto proporcional ao tamanho, ou seja, trajetos mais longos são mais frequentes, e (3) probabilidade do trajeto inversamente proporcional ao tamanho do trajeto, o que resulta em maior frequência de trajetos curtos.
+As entradas para a simulao do elevador foram geradas a partir de um gerador sinttico de requisies. Esse gerador recebe como parmetros: (1) o nmero de andares, (2) a capacidade do elevador, (3) um atributo que determina a popularidade dos trajetos e (4) o nmero de requisies. Como sada, o gerador cria um arquivo de ambiente e um arquivo de requisies. O atributo que determina a popularidade dos trajetos pode ser: (1) escolha aleatria, ou seja, trajetos escolhidos aleatoriamente, (2) probabilidade do trajeto proporcional ao tamanho, ou seja, trajetos mais longos so mais frequentes, e (3) probabilidade do trajeto inversamente proporcional ao tamanho do trajeto, o que resulta em maior frequncia de trajetos curtos.
 
-Em todos os experimentos nós variamos um parâmetro e mantivemos os outros constantes. Cada experimento foi executado 5 vezes e foram tomados os valores médios. Nosso objetivo é reduzir o impacto de propriedades de uma entrada específica produzida pelo gerador de entradas.  Além do tempo de execução, foi medido também o tempo de usuário, que é o tempo gasto pelo processo do programa. O tempo de sistema, utilizado na realização de tarefas no nível do kernel, também foi medido, mas não é mostrado nos resultados pois é muito menor que os tempos de usuário e execução. O tempo médio entre as requisições do elevador foi mantido constante, igual a 3 Jepslons.
+Em todos os experimentos ns variamos um parmetro e mantivemos os outros constantes. Cada experimento foi executado 5 vezes e foram tomados os valores mdios. Nosso objetivo  reduzir o impacto de propriedades de uma entrada especfica produzida pelo gerador de entradas.  Alm do tempo de execuo, foi medido tambm o tempo de usurio, que  o tempo gasto pelo processo do programa. O tempo de sistema, utilizado na realizao de tarefas no nvel do kernel, tambm foi medido, mas no  mostrado nos resultados pois  muito menor que os tempos de usurio e execuo. O tempo mdio entre as requisies do elevador foi mantido constante, igual a 3 Jepslons.
 
-A Tabela~\ref{tempo_n_andares} mostra como o aumento do número de andares afeta os tempos de  execução, usuário e espera dos usuários. O número de andares varia de 25 a 40. O número de requisições é 50000, a capacidade do elevador é de 10 usuários e a escolha dos trajetos é aleatória. É importante notarmos que, ao aumentarmos o número de andares, o tamanho médio dos trajetos tende a aumentar. O número de andares afeta significativamente os tempos de execução, usuário e espera. Experimentos com número de andares maior que 40 requerem tempos de execução muito longos. Nossa hipótese de que esse impacto se deve ao aumento dos trajetos pode ser explicada pelo grande aumento do tempo de espera, ou seja, os usuários estão permanecendo no elevador por um longo período de tempo.
+A Tabela~\ref{tempo_n_andares} mostra como o aumento do nmero de andares afeta os tempos de  execuo, usurio e espera dos usurios. O nmero de andares varia de 25 a 40. O nmero de requisies  50000, a capacidade do elevador  de 10 usurios e a escolha dos trajetos  aleatria.  importante notarmos que, ao aumentarmos o nmero de andares, o tamanho mdio dos trajetos tende a aumentar. O nmero de andares afeta significativamente os tempos de execuo, usurio e espera. Experimentos com nmero de andares maior que 40 requerem tempos de execuo muito longos. Nossa hiptese de que esse impacto se deve ao aumento dos trajetos pode ser explicada pelo grande aumento do tempo de espera, ou seja, os usurios esto permanecendo no elevador por um longo perodo de tempo.
 
 \begin{table}[ht!]
 \centering
 \begin{footnotesize}
 \begin{tabular}{|c|c|c|c|}
 \hline
-\textbf{\#andares}              		& \textbf{Tempo execução(seg.)} & \textbf{Tempo usuário(seg.)}      & \textbf{Tempo de espera (Jepslons)}\\ \hline
+\textbf{\#andares}              		& \textbf{Tempo execuo(seg.)} & \textbf{Tempo usurio(seg.)}      & \textbf{Tempo de espera (Jepslons)}\\ \hline
 25	& 2,03		& 1,85		& 56,19\\ \hline
 30	& 3,00		& 2,77		& 76,13\\ \hline
 35	& 6,96		& 6,69		& 140,37\\ \hline
 40	& 2068,28	& 1952,83	& 1947,29\\ \hline
 \end{tabular}
 \end{footnotesize}
-\caption{Tempo de simulação e de espera para diferentes números de andares \label{tempo_n_andares}}
+\caption{Tempo de simulao e de espera para diferentes nmeros de andares \label{tempo_n_andares}}
 \end{table}
 
-A Tabela~\ref{tempo_capacidade_elevador} mostra impacto da capacidade do elevador sobre o tempo de simulação e o tempo de espera. A capacidade varia de 10 a 13 lugares. O número de andares é 40, o número de requisições é 50000 e a escolha dos trajetos é aleatória. Como era esperado, o tempo de simulação e o tempo de espera são inversamente proporcionais à capacidade do elevador.
+A Tabela~\ref{tempo_capacidade_elevador} mostra impacto da capacidade do elevador sobre o tempo de simulao e o tempo de espera. A capacidade varia de 10 a 13 lugares. O nmero de andares  40, o nmero de requisies  50000 e a escolha dos trajetos  aleatria. Como era esperado, o tempo de simulao e o tempo de espera so inversamente proporcionais  capacidade do elevador.
 
 \begin{table}[ht!]
 \centering
 \begin{footnotesize}
 \begin{tabular}{|c|c|c|c|}
 \hline
-\textbf{capacidade}              		& \textbf{Tempo execução(seg.)} & \textbf{Tempo usuário(seg.)}      & \textbf{Tempo de espera (Jepslons)}\\ \hline
+\textbf{capacidade}              		& \textbf{Tempo execuo(seg.)} & \textbf{Tempo usurio(seg.)}      & \textbf{Tempo de espera (Jepslons)}\\ \hline
 10	& 2068,28	& 1952,83	& 1947,29\\ \hline
 11	& 17,63		& 17,16		& 234,37\\ \hline
 12	& 5,43		& 5,20		& 121,51\\ \hline
 13	& 4,31		& 4,07		& 101,04\\ \hline
 \end{tabular}
 \end{footnotesize}
-\caption{Tempo de simulação e de espera para diferentes capacidades do elevador \label{tempo_capacidade_elevador}}
+\caption{Tempo de simulao e de espera para diferentes capacidades do elevador \label{tempo_capacidade_elevador}}
 \end{table}
 
-A Figura~\ref{tempo_n_requisicoes} avalia o tempos de simulação e de espera em termos do número de requisições. O número de requisições varia de 30000 a 50000. O número de andares é 40, a capacidade do elevador é 10 e a escolha dos trajetos é aleatória. Como indicado na análise de complexidade, o custo computacional do algoritmo é polinomial em relação ao número de requisições. O crescimento do tempo de execução se aproxima de uma função quadrática, também de acordo com a análise de complexidade. Já o tempo de espera aumenta linearmente com o número de requisições, uma hipótese para esse resultado é que quanto maior o número de requisições, mais tempo é necessário para que o simulador gere todas as requisições para o elevador. A partir do momento que todas as requisições foram geradas, a tendência é que a fila de requisições se reduza gradativamente. No entanto, um longo período com geração constante de requisições pelo simulador congestiona a fila de registros de requisição do elevador, aumentando o tempo médio de espera.
+A Figura~\ref{tempo_n_requisicoes} avalia o tempos de simulao e de espera em termos do nmero de requisies. O nmero de requisies varia de 30000 a 50000. O nmero de andares  40, a capacidade do elevador  10 e a escolha dos trajetos  aleatria. Como indicado na anlise de complexidade, o custo computacional do algoritmo  polinomial em relao ao nmero de requisies. O crescimento do tempo de execuo se aproxima de uma funo quadrtica, tambm de acordo com a anlise de complexidade. J o tempo de espera aumenta linearmente com o nmero de requisies, uma hiptese para esse resultado  que quanto maior o nmero de requisies, mais tempo  necessrio para que o simulador gere todas as requisies para o elevador. A partir do momento que todas as requisies foram geradas, a tendncia  que a fila de requisies se reduza gradativamente. No entanto, um longo perodo com gerao constante de requisies pelo simulador congestiona a fila de registros de requisio do elevador, aumentando o tempo mdio de espera.
 
 \begin{figure}[ht!]
 \centering
@@ -362,38 +357,38 @@ A Figura~\ref{tempo_n_requisicoes} avalia o tempos de simulação e de espera em t
 \centering
 \includegraphics[width=2.5in,height=1.8in]{../graficos/tempo_espera_n_requisicoes.eps}
 }
-\caption{Tempo de simulação e de espera para diferentes números de requisições \label{tempo_n_requisicoes}}
+\caption{Tempo de simulao e de espera para diferentes nmeros de requisies \label{tempo_n_requisicoes}}
 \end{figure}
 
-Como última parte de nossa avaliação experimental, nós analisamos como a popularidade dos trajetos afeta os tempos de execução e espera. Três relações entre as frequências dos trajetos e seus tamanhos foram consideradas: (1) trajetos escolhidos aleatoriamente, (2) probabilidade do trajeto diretamente proporcional à sua distância e (3) probabilidade do trajeto inversamente proporcional à sua distância. O número de andares é 40, a capacidade do elevador é 10 e o número de requisições é 15000. A Tabela~\ref{tempos_freq_trajetos} mostra os resultados obtidos. Podemos notar que a distribuição das requisições afeta significativamente os tempos de execução e espera, principalmente o tempo de execução. Quando trajetos longos se tornam mais frequentes, o tempo de execução cresce, não somente devido ao aumento do número de iterações de simulador, mas também do custo da manipulação de um grande número de requisições. Já o tempo de espera, menos afetado, aumenta devido à uma maior carga de trabalho para o elevador.
+Como ltima parte de nossa avaliao experimental, ns analisamos como a popularidade dos trajetos afeta os tempos de execuo e espera. Trs relaes entre as frequncias dos trajetos e seus tamanhos foram consideradas: (1) trajetos escolhidos aleatoriamente, (2) probabilidade do trajeto diretamente proporcional  sua distncia e (3) probabilidade do trajeto inversamente proporcional  sua distncia. O nmero de andares  40, a capacidade do elevador  10 e o nmero de requisies  15000. A Tabela~\ref{tempos_freq_trajetos} mostra os resultados obtidos. Podemos notar que a distribuio das requisies afeta significativamente os tempos de execuo e espera, principalmente o tempo de execuo. Quando trajetos longos se tornam mais frequentes, o tempo de execuo cresce, no somente devido ao aumento do nmero de iteraes de simulador, mas tambm do custo da manipulao de um grande nmero de requisies. J o tempo de espera, menos afetado, aumenta devido  uma maior carga de trabalho para o elevador.
 
 \begin{table}[ht!]
 \centering
 \begin{footnotesize}
 \begin{tabular}{|c|c|c|}
 \hline
-\textbf{Frequência tamanho dos trajetos}              & \textbf{Tempo de execução(seg.)}      & \textbf{Tempo de espera(seg.)} \\ \hline
-Aleatória			& 73,52	& 778,48	\\ \hline
-Proporcional à distância	& 9.011,42	& 7.011,46	\\ \hline
-Inv. Proporcional à distância	& 2,24	& 100,61	\\ \hline
+\textbf{Frequncia tamanho dos trajetos}              & \textbf{Tempo de execuo(seg.)}      & \textbf{Tempo de espera(seg.)} \\ \hline
+Aleatria			& 73,52	& 778,48	\\ \hline
+Proporcional  distncia	& 9.011,42	& 7.011,46	\\ \hline
+Inv. Proporcional  distncia	& 2,24	& 100,61	\\ \hline
 \end{tabular}
 \end{footnotesize}
-\caption{Tempos de simulação e de espera para diferentes frequências de tamanhos de trajeto \label{tempos_freq_trajetos}}
+\caption{Tempos de simulao e de espera para diferentes frequncias de tamanhos de trajeto \label{tempos_freq_trajetos}}
 \end{table}
 
-\section{CONCLUSÃO}
+\section{CONCLUSO}
 \label{conclusao}
 
-Neste trabalho nós descrevemos um simulador discreto de eventos e uma estratégia de controle de um elevador. O simulador gera requisições a serem atendidas ao longo do tempo de simulação e o elevador atende à essas requisições de acordo com uma estratégia similar à utilizada pelos elevadores convencionais. 
+Neste trabalho ns descrevemos um simulador discreto de eventos e uma estratgia de controle de um elevador. O simulador gera requisies a serem atendidas ao longo do tempo de simulao e o elevador atende  essas requisies de acordo com uma estratgia similar  utilizada pelos elevadores convencionais.
 
-O trabalho atingiu seus principais objetivos: a prática da linguagem de programação C e o estudo de problemas complexos. O autor do trabalho já havia implementado alguns programas nessa linguagem e, portanto, não teve grandes problemas na implementação do trabalho. Já a solução do problema demandou a modelagem de diversos cenários, de acordo com diferentes estados do elevador. Uma importante decisão foi a simulação de cada Jepslon e não de instantes específicos associados a eventos, o que facilitou o projeto da solução.
+O trabalho atingiu seus principais objetivos: a prtica da linguagem de programao C e o estudo de problemas complexos. O autor do trabalho j havia implementado alguns programas nessa linguagem e, portanto, no teve grandes problemas na implementao do trabalho. J a soluo do problema demandou a modelagem de diversos cenrios, de acordo com diferentes estados do elevador. Uma importante deciso foi a simulao de cada Jepslon e no de instantes especficos associados a eventos, o que facilitou o projeto da soluo.
 
-A análise de complexidade da solução proposta não foi uma tarefa simples, já que o custo computacional da solução está sujeito à diversas características da entrada. Por outro lado, o impacto de diferentes fatores associados à entrada pôde ser avaliado através de diversos experimentos realizados. 
+A anlise de complexidade da soluo proposta no foi uma tarefa simples, j que o custo computacional da soluo est sujeito  diversas caractersticas da entrada. Por outro lado, o impacto de diferentes fatores associados  entrada pde ser avaliado atravs de diversos experimentos realizados.
 
-Algumas melhorias que poderiam ser consideradas neste trabalho são:
+Algumas melhorias que poderiam ser consideradas neste trabalho so:
 \begin{itemize}
-\item Uma modelagem mais complexa do tempo de simulação em termos da popularidade dos trajetos, do tempo entre as requisições, dentre outros;
-\item A análise do comportamento do elevador considerando características como a distância percorrida e a taxa de utilização do elevador.
+\item Uma modelagem mais complexa do tempo de simulao em termos da popularidade dos trajetos, do tempo entre as requisies, dentre outros;
+\item A anlise do comportamento do elevador considerando caractersticas como a distncia percorrida e a taxa de utilizao do elevador.
 \end{itemize}
 \bibliographystyle{sbc}
 \bibliography{tp0}
