@@ -37,9 +37,13 @@ int main(int argc, char *argv[])
   indiceTextosConstroi(textos_keywords, &vocabulario, &in,
       keywords_limite_texto, textos_termos_individual, arquivosNomes);
 
+  printf("Imprimndo lista de textos: \n");
+  for(termos_total = 0; termos_total < textos_total; termos_total += 1)
+    printf("%s\n", arquivosNomes[termos_total]);
+
   if (!saidaInicia(&in)) exit(EXIT_FAILURE);
   indiceRetornaPalavrasChave(&in, textos_keywords, &vocabulario,
-      textos_termos_individual, textos_total);
+      textos_termos_individual, textos_total, arquivosNomes);
 
   entradaFree(&in);
   saidaFree(&in);

@@ -13,5 +13,8 @@ void ssort(unsigned int*, int);
 void particao(unsigned int*, int, int, int*, int*);
 void ordena(unsigned int*, int, int);
 void quicksort(unsigned int*, int);
+void Particao(unsigned int*, unsigned int*, int, int, int*, int*);
+void Ordena(unsigned int*, unsigned int*, int, int);
+void Quicksort(unsigned int*, unsigned int*, int);
 
 #endif /* UTIL_H_ */

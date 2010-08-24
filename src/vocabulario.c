@@ -212,8 +212,9 @@ void indiceTextosConstroi(Dicionario *vec_textos, Dicionario *vocabulario,
   {
     leitura = fopen(linha, "r");
     dicionarioInicia(&vec_textos[n_texto]);
-    getToken(leitura, termo, &rFlag);
     strcpy(arquivos[n_texto], linha);
+
+    getToken(leitura, termo, &rFlag);
 
     while (rFlag != 1)
     {
@@ -241,6 +242,8 @@ void indiceRetornaPalavrasChave(Entrada *entrada, Dicionario *textos_keywords,
   VecCelula *ocorrencias;
   unsigned int *potencialIgualdade = (unsigned int*) malloc(
       sizeof(unsigned int) * textos_total);
+  unsigned int *locTxt = (unsigned int*) malloc(sizeof(unsigned int)
+      * textos_total);
   zeraVetor(potencialIgualdade, textos_total);
 
   if (!entradaReinicia(entrada)) exit(EXIT_FAILURE);
@@ -278,10 +281,16 @@ void indiceRetornaPalavrasChave(Entrada *entrada, Dicionario *textos_keywords,
 
     fprintf(entrada->similares, "%s;", linha);
 
-    quicksort(potencialIgualdade, textos_total);
+    for (j = 0; j < textos_total; j += 1)
+      locTxt[i] = i;
 
-    for(k=textos_total-2;k>textos_total-10;k-=1)
-      fprintf(entrada->similares, "%d;", potencialIgualdade[k]);
+    Quicksort(potencialIgualdade, locTxt, textos_total);
+
+    for (k = textos_total - 2; k > textos_total - 10; k -= 1)
+    {
+      printf("%d ", locTxt[k]);
+      fprintf(entrada->similares, "%s;", textos[potencialIgualdade[locTxt[k]]]);
+    }
 
     zeraVetor(potencialIgualdade, textos_total);
     fprintf(entrada->palavrasChave, "\n");
