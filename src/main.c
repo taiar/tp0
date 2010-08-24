@@ -34,8 +34,8 @@ int main(int argc, char *argv[])
       keywords_limite_texto, textos_termos_individual);
 
   if (!saidaInicia(&in)) exit(EXIT_FAILURE);
-  indiceRetornaPalavrasChave(&in, textos_keywords, textos_termos_individual,
-      textos_total);
+  indiceRetornaPalavrasChave(&in, textos_keywords, &vocabulario,
+      textos_termos_individual, textos_total);
 
   entradaFree(&in);
   saidaFree(&in);

@@ -123,6 +123,16 @@ void dicionarioImprimeSaida(pNo *p, FILE *handle)
   fprintf(handle, "\n");
 }
 
+pNo* dicionarioBuscaTermo(pNo *p, char *termo)
+{
+  if ((*p) == NULL) return NULL;
+  else if (strcmp(termo, (*p)->termo) > 0) dicionarioBuscaTermo(&(*p)->dir,
+      termo);
+  else if (strcmp(termo, (*p)->termo) > 0) dicionarioBuscaTermo(&(*p)->esq,
+      termo);
+  else return p;
+}
+
 void dicionarioImprime(pNo *p, int limite)
 {
   if ((*p)->ocorrencias.tamanho > limite && limite != 0) return;
@@ -214,11 +224,16 @@ void indiceTextosConstroi(Dicionario *vec_textos, Dicionario *vocabulario,
 }
 
 void indiceRetornaPalavrasChave(Entrada *entrada, Dicionario *textos_keywords,
-    unsigned int *textos_termos_individual, unsigned int textos_total)
+    Dicionario *indice, unsigned int *textos_termos_individual,
+    unsigned int textos_total)
 {
-  int i, j;
+  int i, j, vecSize;
   Keyword *texto_keywords_individual;
   char linha[100];
+  VecCelula *ocorrencias;
+  unsigned int *potencialIgualdade = (unsigned int*) malloc(
+      sizeof(unsigned int) * textos_total);
+  zeraVetor(potencialIgualdade, textos_total);
 
   if (!entradaReinicia(entrada)) exit(EXIT_FAILURE);
 
@@ -233,17 +248,43 @@ void indiceRetornaPalavrasChave(Entrada *entrada, Dicionario *textos_keywords,
     indiceParaVetor(&textos_keywords[i], texto_keywords_individual);
 
     // ordena por termos que mais apareceram
-    // TODO: arrumar com base no tp4 das antigas
     qsort(texto_keywords_individual, textos_termos_individual[i],
-      sizeof(Keyword), (cmp)keywordCompare);
+        sizeof(Keyword), (cmp) keywordCompare);
 
     // imprime no arquivo de saida o nome dos textos com suas keywords
     fscanf(entrada->listaTextos, "%s\n", linha);
     fprintf(entrada->palavrasChave, "%s;", linha);
     for (j = 0; j < textos_termos_individual[i]; j += 1)
+    {
       fprintf(entrada->palavrasChave, "%s;", texto_keywords_individual[j].termo);
+
+      //vetor de ocorrencias da palavra chave
+      ocorrencias = indiceVetorDeOcorrencias(indice,
+          texto_keywords_individual[j].termo, &vecSize);
+      //alimenta vetor de potencial
+      //TODO: pareis aquis!!!
+      free(ocorrencias);
+    }
     fprintf(entrada->palavrasChave, "\n");
   }
+}
+
+VecCelula* indiceVetorDeOcorrencias(Dicionario *indice, char *termo, int *size)
+{
+  int i = 0;
+  pLista aux;
+  pNo *n = dicionarioBuscaTermo(indice, termo);
+  *size = (*n)->ocorrencias.tamanho;
+  VecCelula *v = (VecCelula*) malloc(sizeof(VecCelula) * (*size));
+  aux = (*n)->ocorrencias.primeiro->prox;
+  while(aux->prox != NULL)
+  {
+    v[i].quantidade = aux->quantidade;
+    v[i].texto = aux->texto;
+    i += 1;
+    aux = aux->prox;
+  }
+  return v;
 }
 
 void indiceParaVetorSetCounter()
