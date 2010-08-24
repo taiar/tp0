@@ -6,7 +6,7 @@
  * Esta constante define em qual poporção dos textos uma palavra deve aparecer no
  * máximo para que seja considerada pelo algoritmo de indexação.
  */
-#define KEYWORDS_PROPORCAO_APARICAO .05
+#define KEYWORDS_PROPORCAO_APARICAO .2
 
 #include "io.h"
 #include "vocabulario.h"
