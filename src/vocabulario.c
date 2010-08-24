@@ -224,6 +224,25 @@ void indiceTextosConstroi(Dicionario *vec_textos, Dicionario *vocabulario,
   }
 }
 
+void indiceRetornaPalavrasChave(Entrada *entrada, Dicionario *textos_keywords, unsigned int *textos_termos_individual, unsigned int textos_total)
+{
+  int i, j;
+  Keyword *texto_keywords_individual;
+
+  for (i = 0; i < textos_total; i += 1)
+  {
+    texto_keywords_individual = (Keyword*) malloc(sizeof(Keyword)
+        * textos_termos_individual[i]);
+    indiceParaVetorSetCounter();
+    indiceParaVetor(&textos_keywords[i], texto_keywords_individual);
+    qsort(texto_keywords_individual, textos_termos_individual[i],
+        sizeof(Keyword), keywordCompare);
+    for (j = 0; j < textos_termos_individual[i]; j += 1)
+      printf("%s (%d); ", texto_keywords_individual[j].termo, texto_keywords_individual[j].ocorrencias);
+    printf("\n\n");
+  }
+}
+
 void indiceParaVetorSetCounter()
 {
   indiceParaVetorCounter = 0;

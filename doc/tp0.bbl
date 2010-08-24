@@ -1,0 +1,28 @@
+\begin{thebibliography}{}
+
+\bibitem[Cormen 2001]{cormen2001ia}
+Cormen, T. (2001).
+\newblock {\em {Introduction to algorithms}}.
+\newblock MIT press.
+
+\bibitem[Jain 1991]{jain1991acs}
+Jain, R. (1991).
+\newblock {\em {The art of computer systems performance analysis}}.
+\newblock John Wiley \& Sons New York.
+
+\bibitem[Kernighan et~al. 1988]{kernighan1988cpl}
+Kernighan, B., Ritchie, D., and Ejeklint, P. (1988).
+\newblock {\em {The C programming language}}.
+\newblock Prentice-Hall Englewood Cliffs, NJ.
+
+\bibitem[Sedgewick 2001]{sedgewick2001acp}
+Sedgewick, R. (2001).
+\newblock {Algorithms in C}.
+
+\bibitem[Ziviani 2007]{ziviani2007pai}
+Ziviani, N. (2007).
+\newblock {\em {Projeto de Algoritmos com implementa{\c{c}}{\~o}es em Pascal e
+  C}}.
+\newblock Pioneira Thomson Learning.
+
+\end{thebibliography}
