@@ -197,7 +197,7 @@ void indiceConstroi(pNo *v, Entrada *e, unsigned int *textos,
 }
 
 void indiceTextosConstroi(Dicionario *vec_textos, Dicionario *vocabulario,
-    Entrada *e, unsigned int key_lim, unsigned int *n_termos)
+    Entrada *e, unsigned int key_lim, unsigned int *n_termos, char **arquivos)
 {
   char linha[100];
   char termo[50];
@@ -213,6 +213,7 @@ void indiceTextosConstroi(Dicionario *vec_textos, Dicionario *vocabulario,
     leitura = fopen(linha, "r");
     dicionarioInicia(&vec_textos[n_texto]);
     getToken(leitura, termo, &rFlag);
+    strcpy(arquivos[n_texto], linha);
 
     while (rFlag != 1)
     {
@@ -232,7 +233,7 @@ void indiceTextosConstroi(Dicionario *vec_textos, Dicionario *vocabulario,
 
 void indiceRetornaPalavrasChave(Entrada *entrada, Dicionario *textos_keywords,
     Dicionario *indice, unsigned int *textos_termos_individual,
-    unsigned int textos_total)
+    unsigned int textos_total, char **textos)
 {
   int i, j, k, vecSize;
   Keyword *texto_keywords_individual;

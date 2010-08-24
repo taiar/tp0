@@ -29,10 +29,13 @@ int main(int argc, char *argv[])
   printf("Identificando palavras-chave...\n");
   textos_keywords = (Dicionario*) malloc(sizeof(Dicionario) * textos_total);
   textos_termos_individual = (unsigned int*) malloc(sizeof(int) * textos_total);
+  arquivosNomes = (char**) malloc(sizeof(char*) * textos_total);
+  for (termos_total = 0; termos_total < textos_total; termos_total += 1)
+    arquivosNomes[termos_total] = (char*) malloc(sizeof(char) * 100);
   zeraVetor(textos_termos_individual, textos_total);
 
   indiceTextosConstroi(textos_keywords, &vocabulario, &in,
-      keywords_limite_texto, textos_termos_individual);
+      keywords_limite_texto, textos_termos_individual, arquivosNomes);
 
   if (!saidaInicia(&in)) exit(EXIT_FAILURE);
   indiceRetornaPalavrasChave(&in, textos_keywords, &vocabulario,

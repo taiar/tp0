@@ -69,9 +69,9 @@ int dicionarioBuscaOcorrenciasTermo(pNo*, char*);
 
 void indiceConstroi(pNo*, Entrada*, unsigned int*, unsigned int*);
 void indiceTextosConstroi(Dicionario*, Dicionario*, Entrada*, unsigned int,
-    unsigned int*);
+    unsigned int*, char**);
 void indiceRetornaPalavrasChave(Entrada*, Dicionario*, Dicionario*,
-    unsigned int*, unsigned int);
+    unsigned int*, unsigned int, char**);
 VecCelula* indiceVetorDeOcorrencias(Dicionario*, char*, int*);
 void indiceParaVetor(Dicionario*, Keyword*);
 void indiceParaVetorSetCounter();
