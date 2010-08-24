@@ -7,6 +7,13 @@ int keywordCompare(Keyword *a, Keyword *b)
   else return 0;
 }
 
+int ocorrenciasCompare(unsigned int *a, unsigned int *b)
+{
+  if (a > b) return -1;
+  else if (a < b) return 1;
+  else return 0;
+}
+
 void listaInicia(Lista *l)
 {
   l->tamanho = 0;
@@ -227,7 +234,7 @@ void indiceRetornaPalavrasChave(Entrada *entrada, Dicionario *textos_keywords,
     Dicionario *indice, unsigned int *textos_termos_individual,
     unsigned int textos_total)
 {
-  int i, j, vecSize;
+  int i, j, k, vecSize;
   Keyword *texto_keywords_individual;
   char linha[100];
   VecCelula *ocorrencias;
@@ -261,10 +268,15 @@ void indiceRetornaPalavrasChave(Entrada *entrada, Dicionario *textos_keywords,
       //vetor de ocorrencias da palavra chave
       ocorrencias = indiceVetorDeOcorrencias(indice,
           texto_keywords_individual[j].termo, &vecSize);
+
       //alimenta vetor de potencial
-      //TODO: pareis aquis!!!
+      for (k = 0; k < vecSize - 1; k += 1)
+        potencialIgualdade[ocorrencias[k].texto] += ocorrencias[k].quantidade;
       free(ocorrencias);
     }
+    qsort(potencialIgualdade, textos_total, sizeof(unsigned int),
+        (cmpp) ocorrenciasCompare);
+    zeraVetor(potencialIgualdade, textos_total);
     fprintf(entrada->palavrasChave, "\n");
   }
 }
@@ -277,7 +289,7 @@ VecCelula* indiceVetorDeOcorrencias(Dicionario *indice, char *termo, int *size)
   *size = (*n)->ocorrencias.tamanho;
   VecCelula *v = (VecCelula*) malloc(sizeof(VecCelula) * (*size));
   aux = (*n)->ocorrencias.primeiro->prox;
-  while(aux->prox != NULL)
+  while (aux->prox != NULL)
   {
     v[i].quantidade = aux->quantidade;
     v[i].texto = aux->texto;

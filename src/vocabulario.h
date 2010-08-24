@@ -15,7 +15,9 @@ typedef struct
 } Keyword;
 
 typedef int (*cmp)(Keyword*, Keyword*);
+typedef int (*cmpp)(unsigned int*, unsigned int*);
 int keywordCompare(Keyword*, Keyword*);
+int ocorrenciasCompare(unsigned int*, unsigned int*);
 
 //estrutura das listas
 typedef struct listapal *pLista;
