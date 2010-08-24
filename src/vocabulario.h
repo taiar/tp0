@@ -60,7 +60,8 @@ int dicionarioBuscaOcorrenciasTermo(pNo*, char*);
 void indiceConstroi(pNo*, Entrada*, unsigned int*, unsigned int*);
 void indiceTextosConstroi(Dicionario*, Dicionario*, Entrada*, unsigned int,
     unsigned int*);
-void indiceRetornaPalavrasChave(Entrada*, Dicionario*, unsigned int*, unsigned int);
+void indiceRetornaPalavrasChave(Entrada*, Dicionario*, unsigned int*,
+    unsigned int);
 void indiceParaVetor(Dicionario*, Keyword*);
 void indiceParaVetorSetCounter();
 void indiceTextosRefinaKeywords(Dicionario*, Dicionario*, unsigned int);
