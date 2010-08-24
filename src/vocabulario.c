@@ -274,11 +274,19 @@ void indiceRetornaPalavrasChave(Entrada *entrada, Dicionario *textos_keywords,
         potencialIgualdade[ocorrencias[k].texto] += ocorrencias[k].quantidade;
       free(ocorrencias);
     }
-    qsort(potencialIgualdade, textos_total, sizeof(unsigned int),
-        (cmpp) ocorrenciasCompare);
+
+    fprintf(entrada->similares, "%s;", linha);
+
+    quicksort(potencialIgualdade, textos_total);
+
+    for(k=textos_total-2;k>textos_total-10;k-=1)
+      fprintf(entrada->similares, "%d;", potencialIgualdade[k]);
+
     zeraVetor(potencialIgualdade, textos_total);
     fprintf(entrada->palavrasChave, "\n");
+    fprintf(entrada->similares, "\n");
   }
+  free(potencialIgualdade);
 }
 
 VecCelula* indiceVetorDeOcorrencias(Dicionario *indice, char *termo, int *size)

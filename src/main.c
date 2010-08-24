@@ -10,6 +10,7 @@
 
 int main(int argc, char *argv[])
 {
+  char **arquivosNomes;
   Entrada in;
   Dicionario vocabulario, *textos_keywords;
   unsigned int textos_total = 0, termos_total = 0, keywords_limite_texto,
