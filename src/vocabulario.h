@@ -8,18 +8,24 @@
 #include "io.h"
 #include "util.h"
 
+/**
+ * Estrutura criada para criação de um vetor de Keywords para fins de ordenação.
+ */
 typedef struct
 {
   char termo[50];
   unsigned int ocorrencias;
 } Keyword;
 
+/**
+ * Funções utilizadas pelo método qsort
+ */
 typedef int (*cmp)(Keyword*, Keyword*);
-typedef int (*cmpp)(unsigned int*, unsigned int*);
 int keywordCompare(Keyword*, Keyword*);
-int ocorrenciasCompare(unsigned int*, unsigned int*);
 
-//estrutura das listas
+//=============================================================================
+// LISTA
+//=============================================================================
 typedef struct listapal *pLista;
 
 typedef struct
@@ -42,21 +48,34 @@ typedef struct
 } VecCelula;
 
 void listaInicia(Lista*);
-int listaVazia(Lista*);
+int  listaVazia(Lista*);
 void listaInsere(Lista*, int);
 void listaDestroi(Lista*);
 void listaRetiraUltimo(Lista*);
 
+//=============================================================================
+// ÁRVORE BINÁRIA
+//=============================================================================
+
 typedef struct no *pNo;
 
+/**
+ * Estrutura de cada nó da árvore binária.
+ */
 typedef struct no
 {
-  char termo[50];
-  Lista ocorrencias;
-  pNo esq, dir;
+  char termo[50];     // termo a ser armazenado em cada nó
+  Lista ocorrencias;  // lista de ocorrências do termo
+  pNo esq, dir;       // nós filhos
 } No;
 
 typedef pNo Dicionario;
+
+/**
+ * Esta variável estática é utilizada no método indiceParaVetor e foi necessária
+ * para que eu pudesse acessar corretamente o índice do vetor de Keywords a ser
+ * preenchido nesse método.
+ */
 static unsigned int indiceParaVetorCounter;
 
 void dicionarioInicia(pNo*);
@@ -67,16 +86,44 @@ pNo* dicionarioBuscaTermo(pNo*, char*);
 void dicionarioImprime(pNo*, int);
 int dicionarioBuscaOcorrenciasTermo(pNo*, char*);
 
+/**
+ * Utiliza a estrutura da árvore binária para construir um índice geral de todos
+ * os textos que estão sendo analisados pelo programa.
+ */
 void indiceConstroi(pNo*, Entrada*, unsigned int*, unsigned int*);
+
+/**
+ * Constrói um vetor de árvores binárias e dentro de cada uma das posições
+ * armazena o índice de cada texto individualmente.
+ */
 void indiceTextosConstroi(Dicionario*, Dicionario*, Entrada*, unsigned int,
     unsigned int*, char**);
-void indiceRetornaPalavrasChave(Entrada*, Dicionario*, Dicionario*,
+
+/**
+ * Utiliza todas os cálculos feitos ao longo do programa e retorna a saída
+ * especificada.
+ */
+void indiceRetornaSaidas(Entrada*, Dicionario*, Dicionario*,
     unsigned int*, unsigned int, char**);
+
+/**
+ * Retorna um vetor de ocorrência baseado em uma lista de ocorrência.
+ */
 VecCelula* indiceVetorDeOcorrencias(Dicionario*, char*, int*);
+
+/**
+ * Retorna um vetor do índice (árvore binária) baseado no índice do arquivo.
+ */
 void indiceParaVetor(Dicionario*, Keyword*);
+
+/**
+ * Zera o valor da variável estática.
+ */
 void indiceParaVetorSetCounter();
-void indiceTextosRefinaKeywords(Dicionario*, Dicionario*, unsigned int);
-void indiceRemoveKeywordsIrrelevantes(Dicionario*, Dicionario*);
+
+/**
+ * Utilizado apenas para testes.
+ */
 void indiceImprimePalavrasChaves(pNo*, int);
 
 #endif

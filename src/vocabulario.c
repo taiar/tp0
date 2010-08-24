@@ -232,7 +232,7 @@ void indiceTextosConstroi(Dicionario *vec_textos, Dicionario *vocabulario,
   }
 }
 
-void indiceRetornaPalavrasChave(Entrada *entrada, Dicionario *textos_keywords,
+void indiceRetornaSaidas(Entrada *entrada, Dicionario *textos_keywords,
     Dicionario *indice, unsigned int *textos_termos_individual,
     unsigned int textos_total, char **textos)
 {
@@ -281,12 +281,15 @@ void indiceRetornaPalavrasChave(Entrada *entrada, Dicionario *textos_keywords,
 
     fprintf(entrada->similares, "%s;", linha);
 
+    // este vetor é criado para conseguirmos identificar os textos após a
+    // ordenação pelo número de ocorrências.
     for (j = 0; j < textos_total; j += 1)
       locTxt[j] = j;
 
     Quicksort(potencialIgualdade, locTxt, textos_total);
 
-    for (k = textos_total - 1; k > textos_total - 1 - (10); k -= 1)
+    // Retorna os 5 textos mais parecidos
+    for (k = textos_total - 1; k > textos_total - 1 - (5); k -= 1)
       fprintf(entrada->similares, "%s;", textos[locTxt[k]]);
 
     zeraVetor(potencialIgualdade, textos_total);
