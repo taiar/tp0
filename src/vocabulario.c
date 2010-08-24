@@ -235,13 +235,13 @@ void indiceRetornaPalavrasChave(Entrada *entrada, Dicionario *textos_keywords,
     // ordena por termos que mais apareceram
     // TODO: arrumar com base no tp4 das antigas
     qsort(texto_keywords_individual, textos_termos_individual[i],
-        sizeof(Keyword), keywordCompare);
+      sizeof(Keyword), (cmp)keywordCompare);
 
     // imprime no arquivo de saida o nome dos textos com suas keywords
     fscanf(entrada->listaTextos, "%s\n", linha);
-    fprintf(entrada->palavrasChave,"%s;", linha);
+    fprintf(entrada->palavrasChave, "%s;", linha);
     for (j = 0; j < textos_termos_individual[i]; j += 1)
-      fprintf(entrada->palavrasChave,"%s;", texto_keywords_individual[j].termo);
+      fprintf(entrada->palavrasChave, "%s;", texto_keywords_individual[j].termo);
     fprintf(entrada->palavrasChave, "\n");
   }
 }

@@ -49,7 +49,8 @@ int saidaInicia(Entrada*);
 void saidaFree(Entrada*);
 
 /**
- * Verifica se o caractere passado é valido segundo criterios arbitrarios para leitura do arquivo.
+ * Verifica se o caractere passado é valido segundo criterios arbitrarios para
+ * leitura do arquivo.
  */
 int isChar(char);
 
@@ -64,7 +65,8 @@ int isSpace(char);
 int isLineBreak(char);
 
 /**
- * Transforma caracteres de letras maiúsculas em minúsculas para fins de simplificação.
+ * Transforma caracteres de letras maiúsculas em minúsculas para fins de
+ * simplificação.
  */
 char lowerCase(char);
 

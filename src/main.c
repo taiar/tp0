@@ -2,10 +2,11 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define KEYWORDS_PROPORCAO_APARICAO .05
+#define KEYWORDS_PROPORCAO_APARICAO .2
 
 #include "io.h"
 #include "vocabulario.h"
+#include "util.h"
 
 int main(int argc, char *argv[])
 {
@@ -27,12 +28,12 @@ int main(int argc, char *argv[])
   printf("Identificando palavras-chave...\n");
   textos_keywords = (Dicionario*) malloc(sizeof(Dicionario) * textos_total);
   textos_termos_individual = (unsigned int*) malloc(sizeof(int) * textos_total);
+  zeraVetor(textos_termos_individual, textos_total);
 
   indiceTextosConstroi(textos_keywords, &vocabulario, &in,
       keywords_limite_texto, textos_termos_individual);
 
   if (!saidaInicia(&in)) exit(EXIT_FAILURE);
-
   indiceRetornaPalavrasChave(&in, textos_keywords, textos_termos_individual,
       textos_total);
 
