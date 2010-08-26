@@ -85,11 +85,36 @@ em forma de uma árvore binária. Cada nó dessa árvore tem uma lista encadeada
 ocorrências do termo que armazenam em cada célula o texto em que aquele termo
 apareceu e quantas vezes apareceu nesse texto.
 
+Primeiramete, é criado um índice lendo um por um os arquivos passados como
+entrada para serem analisados. Cada termo desse arquivo é inserido na estrutura
+da árvore e servirá como nosso índice/vocabulário.
+
+\begin{algorithm}[H]
+\begin{footnotesize}
+  \ForEach{Documento}{
+    \ForEach{termo válido}{
+      \If{o termo já apareceu em algum texto}{
+        \If{o termo já apareceu neste texto}{
+          incrementa o contador de ocorrências correspondente ao termo no texto;\
+        }
+        \Else{
+          insere o texto na lista e contabiliza o contador de ocorrências para
+          este termo;\
+        }
+      }
+      \Else{
+        insere o nó referente ao termo, insere o texto na lista e contabiliza o
+        contador de ocorrências para este termo;\
+      }
+    }
+  }
+\caption{Leitura do índice}
+\end{footnotesize}
+\end{algorithm}
+
+
+
 % - análise de complexidade
-A soluo proposta para a simulao discreta do funcionamento de um elevador utiliza 
-um conjunto de estruturas de dados que contm informaes sobre o estado da simulao, 
-do elevador, registros de requisies, dentre outros. Essas estruturas so manipuladas 
-  atravs de um conjunto de algoritmos que descrevem o funcionamento da soluo.
 
 O simulador implementado tem como base um temporizador contnuo, ou seja, cada instante 
 de simulao corresponde  uma iterao do simulador. Uma outra opo seria utilizar como base 
