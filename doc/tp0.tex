@@ -68,18 +68,47 @@ análise de quão boa foram as métricas propostas para avaliar a semelhança en
 os conteúdos e variar as diversas considerações para obter uma visão mais ampla
 do funcionamento do sistema.
 
-\section{SOLUO PROPOSTA}
+\section{Solução Proposta}
 \label{solucao_proposta}
 
-% - descrição em alto nível
+A solução proposta para os cálculos sobre as frequencias e ocorrencias das
+palavras utiliza um conjunto de estruturas de dados que contém informações sobre
+o termo em si (a palavra especificamente), o texto aonde ela ocorreu e quantas
+vezes ocorreu naquele texto. Em diferentes partes do algoritmo, esta estrutura está
+organizada de diferentes formas: às vezes como uma árvore binária, como um vetor
+de árvores binárias, como uma lista encadeada e como um vetor nos casos em que
+exigiam ordenação.
+
+Para criar uma estrutura de pesquisa eficiente tanto em termos de espaço quanto
+custo computacional, optei por armazenar todo o índice de ocorrências dos termos
+em forma de uma árvore binária. Cada nó dessa árvore tem uma lista encadeada de
+ocorrências do termo que armazenam em cada célula o texto em que aquele termo
+apareceu e quantas vezes apareceu nesse texto.
+
 % - análise de complexidade
-A soluo proposta para a simulao discreta do funcionamento de um elevador utiliza um conjunto de estruturas de dados que contm informaes sobre o estado da simulao, do elevador, registros de requisies, dentre outros. Essas estruturas so manipuladas atravs de um conjunto de algoritmos que descrevem o funcionamento da soluo.
+A soluo proposta para a simulao discreta do funcionamento de um elevador utiliza 
+um conjunto de estruturas de dados que contm informaes sobre o estado da simulao, 
+do elevador, registros de requisies, dentre outros. Essas estruturas so manipuladas 
+  atravs de um conjunto de algoritmos que descrevem o funcionamento da soluo.
 
-O simulador implementado tem como base um temporizador contnuo, ou seja, cada instante de simulao corresponde  uma iterao do simulador. Uma outra opo seria utilizar como base a contagem das requisies. Os critrios que levaram  escolha da iterao do simulador em cada instante so: (1) a simplicidade de implementao, (2) mapeamento direto entre tempo de execuo e tempo de simulao e (3) o custo computacional reduzido de avaliar cada instante de simulao, supondo-se que as requisies sejam bem distribudas ao longo do tempo.
+O simulador implementado tem como base um temporizador contnuo, ou seja, cada instante 
+de simulao corresponde  uma iterao do simulador. Uma outra opo seria utilizar como base 
+a contagem das requisies. Os critrios que levaram  escolha da iterao do simulador em 
+cada instante so: (1) a simplicidade de implementao, (2) mapeamento direto entre tempo 
+de execuo e tempo de simulao e (3) o custo computacional reduzido de avaliar cada instante 
+de simulao, supondo-se que as requisies sejam bem distribudas ao longo do tempo.
 
-O controle do elevador  baseado no que chamamos de \textit{requisio corrente}, que  a requisio que define o sentido do elevador, e  sempre a requisio do andar mais alto quando o elevador est subindo ou a requisio do andar mais baixo quando o elevador est descendo. Atravs da identificao de uma requisio corrente  possvel determinar o trajeto do elevador ao longo do tempo. Durante o percurso na direo de atender uma requisio corrente, outras requisies podem ser atendidas, sempre considerando as restries de espao do elevador.
+O controle do elevador  baseado no que chamamos de \textit{requisio corrente}, que  a requisio 
+que define o sentido do elevador, e  sempre a requisio do andar mais alto quando o elevador est 
+subindo ou a requisio do andar mais baixo quando o elevador est descendo. Atravs da identificao 
+de uma requisio corrente  possvel determinar o trajeto do elevador ao longo do tempo. Durante o 
+percurso na direo de atender uma requisio corrente, outras requisies podem ser atendidas, sempre 
+considerando as restries de espao do elevador.
 
-A seguir, ns descrevemos as principais estruturas de dados e algoritmos propostos. Ns analisamos a complexidade dos algoritmos em termos do nmero de requisies ($n$), do nmero de andares ($a$) e da capacidade do elevador ($c$). A complexidade de espao ser determinada com base nas estruturas de dados e na anlise do algoritmo principal, que determina a complexidade da soluo.
+A seguir, ns descrevemos as principais estruturas de dados e algoritmos propostos. Ns analisamos 
+a complexidade dos algoritmos em termos do nmero de requisies ($n$), do nmero de andares ($a$) e 
+da capacidade do elevador ($c$). A complexidade de espao ser determinada com base nas estruturas 
+de dados e na anlise do algoritmo principal, que determina a complexidade da soluo.
 
 \subsection{Estruturas de dados}
 
