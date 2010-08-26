@@ -278,6 +278,7 @@ void indiceRetornaSaidas(Entrada *entrada, Dicionario *textos_keywords,
         potencialIgualdade[ocorrencias[k].texto] += ocorrencias[k].quantidade;
       free(ocorrencias);
     }
+    free(texto_keywords_individual);
 
     fprintf(entrada->similares, "%s;", linha);
 
