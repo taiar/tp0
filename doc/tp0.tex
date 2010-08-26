@@ -46,9 +46,27 @@ explorado.
 
 \section{Introdução}
 
-% - descrição do problema
-% - importância
-% - visão geral do trabalho
+Neste trabalho foi desenvolvido um sistema que, dado um conjunto de textos
+qualquer, encontramos para cada elemento o seu tópico/palavras-chaves. De acordo
+com a ocorrência das palavras-chaves nos textos, podemos definir algumas
+métricas de semelhança entre os eles e, assim, identificar 
+textos que têm conteúdo semânticamente relacionado de uma forma automática.
+
+Esse tipo de análise de conteúdo semânticamente relacionado vem sendo amplamente
+utilizado para conjuntos cada vez maiores de informação. A Web é um exemplo de
+rede com conteúdo vasto e que crescimento vertiginoso. Organizar e encontrar
+toda essa informação de forma relevante através em um conteúdo tão vasto e
+fragmentado em sites, blogs, wikis, redes sociais, etc, é uma importante
+aplicação deste trabalho e do que é desenvolvido com relação à Recuperação de
+Informação.
+
+Aqui foram implementados algoritmos simples operando sobre uma estrutura de
+dados de pesquisa em memória bem eficiente e dinâmica. Foram avaliadas métricas
+simples de classificar o conteúdo dos textos por palavras-chaves e,
+posteriormente calcular o quão relacionados estes textos são. Ao final, farei a
+análise de quão boa foram as métricas propostas para avaliar a semelhança entre
+os conteúdos e variar as diversas considerações para obter uma visão mais ampla
+do funcionamento do sistema.
 
 \section{SOLUO PROPOSTA}
 \label{solucao_proposta}
@@ -341,20 +359,20 @@ A Tabela~\ref{tempo_capacidade_elevador} mostra impacto da capacidade do elevado
 
 A Figura~\ref{tempo_n_requisicoes} avalia o tempos de simulao e de espera em termos do nmero de requisies. O nmero de requisies varia de 30000 a 50000. O nmero de andares  40, a capacidade do elevador  10 e a escolha dos trajetos  aleatria. Como indicado na anlise de complexidade, o custo computacional do algoritmo  polinomial em relao ao nmero de requisies. O crescimento do tempo de execuo se aproxima de uma funo quadrtica, tambm de acordo com a anlise de complexidade. J o tempo de espera aumenta linearmente com o nmero de requisies, uma hiptese para esse resultado  que quanto maior o nmero de requisies, mais tempo  necessrio para que o simulador gere todas as requisies para o elevador. A partir do momento que todas as requisies foram geradas, a tendncia  que a fila de requisies se reduza gradativamente. No entanto, um longo perodo com gerao constante de requisies pelo simulador congestiona a fila de registros de requisio do elevador, aumentando o tempo mdio de espera.
 
-\begin{figure}[ht!]
-\centering
-\subfigure[\label{tempo_simulacao_n_requisicoes}]
-{
-\centering
-\includegraphics[width=2.5in,height=1.8in]{../graficos/tempo_simulacao_n_requisicoes.eps}
-}
-\subfigure[\label{tempo_espera_n_andares}]
-{
-\centering
-\includegraphics[width=2.5in,height=1.8in]{../graficos/tempo_espera_n_requisicoes.eps}
-}
-\caption{Tempo de simulao e de espera para diferentes nmeros de requisies \label{tempo_n_requisicoes}}
-\end{figure}
+%\begin{figure}[ht!]
+%\centering
+%\subfigure[\label{tempo_simulacao_n_requisicoes}]
+%{
+%\centering
+%\includegraphics[width=2.5in,height=1.8in]{../graficos/tempo_simulacao_n_requisicoes.eps}
+%}
+%\subfigure[\label{tempo_espera_n_andares}]
+%{
+%\centering
+%\includegraphics[width=2.5in,height=1.8in]{../graficos/tempo_espera_n_requisicoes.eps}
+%}
+%\caption{Tempo de simulao e de espera para diferentes nmeros de requisies \label{tempo_n_requisicoes}}
+%\end{figure}
 
 Como ltima parte de nossa avaliao experimental, ns analisamos como a popularidade dos trajetos afeta os tempos de execuo e espera. Trs relaes entre as frequncias dos trajetos e seus tamanhos foram consideradas: (1) trajetos escolhidos aleatoriamente, (2) probabilidade do trajeto diretamente proporcional  sua distncia e (3) probabilidade do trajeto inversamente proporcional  sua distncia. O nmero de andares  40, a capacidade do elevador  10 e o nmero de requisies  15000. A Tabela~\ref{tempos_freq_trajetos} mostra os resultados obtidos. Podemos notar que a distribuio das requisies afeta significativamente os tempos de execuo e espera, principalmente o tempo de execuo. Quando trajetos longos se tornam mais frequentes, o tempo de execuo cresce, no somente devido ao aumento do nmero de iteraes de simulador, mas tambm do custo da manipulao de um grande nmero de requisies. J o tempo de espera, menos afetado, aumenta devido  uma maior carga de trabalho para o elevador.
 
