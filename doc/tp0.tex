@@ -176,36 +176,71 @@ retornado é arbitrário. Nas execuções do trabalho, retornamos quantidades de
 \end{footnotesize}
 \end{algorithm}
 
+Encerrada a explicação sobre os principais algoritmos e as estruturas de dados
+utilizados, e como eles se combinaram na solução do problema, segue abaixo uma
+breve análise sobre a análise de complexidade dos principais algoritmos e mais
+alguma explicação sobre as estruturas que eventualmente tenha faltado acima.
 
-Foi feito uma implementação em que, com apenas 1 iteração sobre a lista de
-arquivos analisados, conseguimos retornar as 2 saídas. Ambos os algoritmos estão
-implementados em um mesmo método.
+\subsection{Análise da solução}
 
-% - análise de complexidade
+\subsubsection{Dicionário}
+Armazena cada termo, o documento em que ocorreu e quantas
+vezes ocorreu naquele documento. O Dicionário foi organizado como uma árvore 
+binária de pesquisa em que cada termos e suas ocorrências estão em um nó da 
+árvore. Dessa forma, cada nó ainda conta com 2 ponteiros (um que aponta para 
+a sub-árvore da direita e um que aponta para a sub-árvore da direita).
 
-A seguir, ns descrevemos as principais estruturas de dados e algoritmos propostos. Ns analisamos 
-a complexidade dos algoritmos em termos do nmero de requisies ($n$), do nmero de andares ($a$) e 
-da capacidade do elevador ($c$). A complexidade de espao ser determinada com base nas estruturas 
-de dados e na anlise do algoritmo principal, que determina a complexidade da soluo.
-
-\subsection{Estruturas de dados}
-
-\subsubsection{Requisio:}
-
-Armazena informaes sobre uma requisio de transporte para o elevador.
 \begin{algorithm}[h!]
 \begin{footnotesize}
-
-	identificador\;
-	hora requisicao\;
-	andar atual\;
-	andar desejado\;
-
-\caption{Requisicao}%
+	termo\;
+	lista de ocorrencias\;
+\caption{Nó da Árvore}
 \end{footnotesize}
 \end{algorithm}
 
-\subsubsection{Simulador}
+\begin{table}[ht]
+  \caption{Análise de Complexidade do Dicionário}
+  \centering
+  \begin{tabular}{c c}
+  \hline\hline
+  Operação & Custo \\ [0.5ex]
+  \hline
+  Inserção na Árvore & $O(\log(n))$ \\
+  Inserção na Árvore & $O(\log(n))$ \\
+  Inserção na Árvore & $O(\log(n))$ \\
+  \hline
+  \end{tabular}
+  \label{table:nonlin}
+\end{table}
+
+\subsubsection{Lista de Ocorrências}
+
+Precisamos de uma lista de ocorrências para guardar todas as ocorrências que
+variavam por termo e documentos. Cada nó do dicionário contém uma lista de
+ocorrências.
+
+\begin{algorithm}[h!]
+\begin{footnotesize}
+	identificador do documento\;
+	ocorrências no documento\;
+\caption{Item da lista}
+\end{footnotesize}
+\end{algorithm}
+
+\begin{table}[ht]
+  \caption{Análise de Complexidade da Lista}
+  \centering
+  \begin{tabular}{c c}
+  \hline\hline
+  Operação & Custo \\ [0.5ex]
+  \hline
+  Inserção na Árvore & $O(\log(n))$ \\
+  Inserção na Árvore & $O(\log(n))$ \\
+  Inserção na Árvore & $O(\log(n))$ \\
+  \hline
+  \end{tabular}
+  \label{table:nonlin}
+\end{table}
 
 Armazena informaes para a simulao, ou seja, uma fila de requisies de transporte a ser tratada pelo elevador. A complexidade de espao do armazenamento das requisies  $O(n)$, onde $n$  o nmero de requisies.
 \begin{algorithm}[h!]
