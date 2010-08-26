@@ -183,6 +183,10 @@ alguma explicação sobre as estruturas que eventualmente tenha faltado acima.
 
 \subsection{Análise da solução}
 
+\subsubsection{Ordenação}
+O algoritmo de ordenação utilizado foi o Quicksort que tem ordem de complexidade
+$n(\log(n))$ para casos médios.
+
 \subsubsection{Dicionário}
 Armazena cada termo, o documento em que ocorreu e quantas
 vezes ocorreu naquele documento. O Dicionário foi organizado como uma árvore 
@@ -203,14 +207,13 @@ a sub-árvore da direita e um que aponta para a sub-árvore da direita).
   \centering
   \begin{tabular}{c c}
   \hline\hline
-  Operação & Custo \\ [0.5ex]
+  Operação & Custo (casos médios) \\
   \hline
   Inserção na Árvore & $O(\log(n))$ \\
-  Inserção na Árvore & $O(\log(n))$ \\
-  Inserção na Árvore & $O(\log(n))$ \\
+  Pesquisa na Árvore & $O(\log(n))$ \\
+  Caminhamento na Árvore & $O(n)$ \\
   \hline
   \end{tabular}
-  \label{table:nonlin}
 \end{table}
 
 \subsubsection{Lista de Ocorrências}
@@ -232,140 +235,16 @@ ocorrências.
   \centering
   \begin{tabular}{c c}
   \hline\hline
-  Operação & Custo \\ [0.5ex]
+  Operação & Custo \\
   \hline
-  Inserção na Árvore & $O(\log(n))$ \\
-  Inserção na Árvore & $O(\log(n))$ \\
-  Inserção na Árvore & $O(\log(n))$ \\
+  Inserção na Lista & $O(n)$ \\
+  Remocao da Lista & $O(n)$ \\
+  Pesquisa na Lista & $O(n)$ \\
   \hline
   \end{tabular}
-  \label{table:nonlin}
 \end{table}
 
-Armazena informaes para a simulao, ou seja, uma fila de requisies de transporte a ser tratada pelo elevador. A complexidade de espao do armazenamento das requisies  $O(n)$, onde $n$  o nmero de requisies.
-\begin{algorithm}[h!]
-\begin{footnotesize}
-	numero de requisicoes\;
-	requisicoes\;
 
-\caption{Simulador}%
-\end{footnotesize}
-\end{algorithm}
-
-\subsubsection{Registro de requisio}
-
-Armazena um registro de requisio, que  uma unidade da memria de requisies a serem atendidas pelo elevador. Possui, alm da requisio, um tipo, que a define se a operao necessria  de carga ou descarga de passageiro.
-\begin{algorithm}[h!]
-\begin{footnotesize}
-
-	requisicao\;
-	tipo\;
-
-\caption{Registro de requisicao}%
-\end{footnotesize}
-\end{algorithm}
-
-
-\subsubsection{Elevador}
-
-Armazena informaes sobre o elevador, como seu estado e algumas restries definidas atravs do ambiente de execuo. Contm uma lista de registros que representa a memria de requisies do elevador. A complexidade de espao do armazenamento dos registros  $O(n)$, onde $n$  o nmero de requisies.
-\begin{algorithm}[h!]
-\begin{footnotesize}
-
-	andar atual\;
-	lotacao\;
-	capacidade\;
-	numero de andares\;
-	sentido\;
-	numero de registros\;
-	registros\;
-
-\caption{Elevador}%
-\end{footnotesize}
-\end{algorithm}
-
-
-\subsection{Algoritmos}
-
-\subsubsection{Atende requisio de carga}
-
-Realiza o atendimento de uma requisio de carga para o elevador. No caso da requisio atendida ser a corrente, o elevador altera o sentido de seu movimento. Cada requisio de carga est sujeita  limitao de espao (lotao mxima) do elevador. Alm disso, uma requisio de carga s  atendida quando o elevador se movimenta no sentido do andar de destino da requisio. Caso contrrio, a requisio deve aguardar a passagem do elevador no futuro. A complexidade desse algoritmo em termos de tempo de execuo  $O(n)$, onde $n$  o nmero de requisies, devido ao custo de identificao da requisio corrente, realizado atravs de uma busca linear.
-\begin{algorithm}[h!]
-\begin{footnotesize}
-
-	\If{requisicao corrente}{
-		Inverte sentido elevador\;
-	}
-
-	Atualiza lotacao elevador\;
-	Gera requisicao de descarga\;
-
-\caption{atende-requisicao-carga(elevador, registro requisicao)}%
-\end{footnotesize}
-\end{algorithm}
-
-\subsubsection{Atende requisio de descarga}
-
-Similar ao atendimento de uma requisio de carga, apesar de no estar sujeita  restries de capacidade do elevador. A complexidade desse algoritmo em termos de tempo de execuo tambm  $O(n)$.
-\begin{algorithm}[h!]
-\begin{footnotesize}
-
-	\If{requisicao corrente}{
-		Inverte sentido elevador\;
-	}
-
-	Atualiza lotacao do elevador\;
-	gera relatorio de atendimento da requisicao\;
-	apaga registro da memoria do elevador\;
-
-\caption{atende-requisicao-descarga(elevador, registro requisicao)}%
-\end{footnotesize}
-\end{algorithm}
-
-
-\subsubsection{Opera elevador}
-
-Controla a movimentao do elevador ao longo do tempo. Caso haja alguma requisio a ser atendida em um dado momento, ou seja requisies para o andar atual, aquele instante ser utilizado para o atendimento dessas requisies. Caso contrrio,  identificada a requisio corrente e o elevador  movimentado no sentido dessa requisio. A complexidade desse algoritmo em termos de tempo de execuo  $O(n^2)$, onde $n$  o nmero de requisies, que corresponde ao custo de atender toda a fila de requisies, sendo que o atendimento de cada requisio tem custo $O(n)$.
-\begin{algorithm}[h!]
-\begin{footnotesize}
-
-	\eIf{Ha requisicoes para o andar}{
-		Atende requisicoes descarga\;
-		Atende requisicoes carga\;
-	}{
-		movimenta elevador no sentido da requisicao corrente\;
-	}
-
-\caption{opera-elevador(elevador, tempo)}%
-\end{footnotesize}
-\end{algorithm}
-
-
-\subsubsection{Simula elevador}
-
-Determina o funcionamento da simulao. Para cada instante de tempo, em que haja uma requisio (na fila do simulador ou na memria do elevador), o elevador  operado (segundo a funo opera-elevador), e as requisies de carga para aquele dado instante so armazenadas na memria do elevador, segundo a fila de requisies do simulador. Determinar a complexidade da simulao no  uma tarefa trivial, j que depende do tempo total de simulao ($t$). Devido ao custo de operao do elevador (funo $opera-elevador$), sabemos que a complexidade de tempo do algoritmo  $O(n^2\times t)$. Alm disso, $t$  inversamente proporcional  capacidade do elevador ($c$) e diretamente proporcional ao nmero de andares ($a$) e ao nmero de requisies ($n$). No entanto, a relao entre $t$, $c$, $a$ e $n$  afetada por:
-\begin{itemize}
-\item A popularidade dos trajetos no elevador: o que afeta o tempo de transporte, se caminhos mais longos tendem a ser mais frequentes o tempo de simulao aumenta.
-\item O tempo entre as requisies: se as requisies forem muito separadas no tempo, a simulao tende a ser longa, alm disso, isso pode reduzir a taxa de utilizao do elevador, atravs da frequncia de trajetos em que elevador esteja quase vazio.
-\end{itemize}
-
-Acreditamos que a modelagem do problema considerando diferentes distribuies de popularidade e tempos entre requisies no est no escopo deste trabalho. A complexidade de espao do algoritmo  $O(n)$, onde $n$  o nmero que requisies do elevador, j que  necessrio  armazenamento de cada requisio na fila do simulador e na memria do elevador.
-\begin{algorithm}[h!]
-\begin{footnotesize}
-
-	tempo = 0\;
-	\While{Ha requisicoes}{
-		opera-elevador(elevador,tempo)\;
-		Registra requisicoes na memoria do elevador de acordo com o simulador\;
-		tempo++\;
-	}
-
-\caption{simula(sequencia requisicoes, ambiente)}%
-\end{footnotesize}
-\end{algorithm}
-
-\section{IMPLEMENTAO}
-\label{implementacao}
 
 % - módulos
 % - formatos de entrada e saída
