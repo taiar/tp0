@@ -154,6 +154,33 @@ textos analisados se os texos mais semelhantes à ele. O número de textos a ser
 retornado é arbitrário. Nas execuções do trabalho, retornamos quantidades de 5 a
 8 indicações de textos.
 
+\begin{algorithm}[h!]
+\begin{footnotesize}
+  \ForEach{Documento}{ 
+    $PalavrasChave \longleftarrow$ recebe as palavras-chave do Documento e o seu
+    número de ocorrências naquele texto\;
+    $OrdenaOcorrenciaDecrescente(PalavrasChave)$\;
+    \textbf{Imprime} lista de palavras-chave\;
+    \ForEach{palavras-chave do Documento}{
+      $Ocorrencias \longleftarrow$ vetor de textos e numero de ocorrencias 
+      da palavra-chave por texto\;
+      \ForEach{Documento em que a palavra-chave ocorreu}{
+        $PotencialDeSemelhanca[Documento de Ocorrencia] + \longleftarrow$
+        ocorrencias da palavra-chave no Documento de Ocorrencia\;
+      }
+    }
+    $OrdenaPotenciaDecrescente(PotencialDeSemelhanca)$\;
+    \textbf{Imprime} lista de $\textbf{N}$ Documentos mais similares\;
+  }
+\caption{Identificação de textos semelhantes}
+\end{footnotesize}
+\end{algorithm}
+
+
+Foi feito uma implementação em que, com apenas 1 iteração sobre a lista de
+arquivos analisados, conseguimos retornar as 2 saídas. Ambos os algoritmos estão
+implementados em um mesmo método.
+
 % - análise de complexidade
 
 A seguir, ns descrevemos as principais estruturas de dados e algoritmos propostos. Ns analisamos 
