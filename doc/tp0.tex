@@ -46,57 +46,15 @@ explorado.
 
 \section{Introdução}
 
-Neste trabalho, ns descrevemos, implementamos e analisamos um controlador de elevador. 
-Para fins de anlise, foi implementado um simulador orientado a eventos para a gerao 
-de requisies de transporte. Os principais objetivos do trabalho so o exerccio da 
-linguagem C, a discusso sobre problemas e complexos e sua soluo.
-
-O problema especfico a ser estudado neste trabalho  a implementao de um simulador para 
-a gerao de chamadas de passageiros de um elevador e a avaliao de uma estratégia de controle 
-para o atendimento das chamadas. A estratégia de controle do elevador deve atender as requisies 
-obedecendo  restrio de capacidade do elevador (lotao mxima). A contagem de tempo  realizada 
-atravs de uma unidade bsica, denominada Jepslon. Um tempo total de 1 Jepslon  necessrio para 
-que o elevador percorra a distncia entre dois andares ou para que ele realize uma operao de 
-carga ou descarga de passageiros.
-
-A estratégia de controle proposta neste trabalho  similar  aquela utilizada pela maioria dos 
-elevadores convencionais. Em cada instante de tempo, o elevador pode estar percorrendo os 
-andares nos sentidos para cima ou para baixo. Ao passar por cada andar, o elevador verifica 
-se existem requisies de descarga de passageiros para o andar corrente ou requisies de carga 
-de passageiros que desejam seguir o sentido atual do elevador. No caso de requisies de carga,  
-verificada a restrio de capacidade do elevador.
-
-O simulador desenvolvido, que gera requisies para o elevador,  simples. Dado um conjunto de requisies, 
-que representam passageiros com um andar de origem e destino, alm de um instante de gerao da requisio 
-(momento em que o passageiro aperta o boto chamando o elevador), o simulador gera cada uma das requisies 
-no tempo correto. Essas requisies so carregadas na memria do elevador.
-
-Uma anlise experimental do tempo de execuo do simulador e do tempo mdio de espera dos usurios foi 
-realizada. Para isso, foi necessria a criao de um gerador de requisies. A modelagem do tempo de simulao 
-em termos das caractersticas do problema no  uma tarefa simples, j que ela precisa considerar fatores como 
-a distribuio dos trajetos e distribuio dos tempos entre as requisies. Para ilustrar o efeito desses fatores, 
-ns avaliamos como a popularidade dos trajetos afeta o elevador.
-
-O restante deste relatrio  organizado da seguinte forma. A Seo~\ref{trabalhos_relacionados} 
-discute alguns temas relacionados ao trabalho. A Seo~\ref{solucao_proposta} descreve o simulador, 
-o elevador e a estratégia de controle proposta. A Seo~\ref{implementacao} trata de detalhes especficos 
-da implementao do trabalho. A Seo~\ref{avaliacao_experimental} contm a avaliao experimental do 
-controlador de elevador proposto. A Seo~\ref{conclusao} conclui o trabalho.
-
-\section{REFERNCIAS RELACIONADAS}
-\label{trabalhos_relacionados}
-
-Podemos dividir as referncias associadas ao problema estudado e  soluo proposta dentre os seguintes grupos:
-\begin{itemize}
-\item \textbf{Escalonamento, anlise de desempenho:} Um grande nmero de problemas em computao pode ser modelado como um conjunto de requisies  um dado servio. Nesse caso, a estratégia de atendimento  essas requisies pode afetar o desempenho do servio significativamente. Alm disso, tambm  importante entender as caractersticas da entrada (carga), j que elas determinam diversas caractersticas do servio. Mais informaes sobre o assunto podem ser encontradas em \cite{jain1991acs}.
-\item \textbf{Linguagem C:}
-	Todo o trabalho foi implementado em linguagem de programao C. A linguagem C  uma linguagem de propsito geral amplamente utilizada no desenvolvimento de sistemas de alto desempenho, de tempo real, sistemas operacionais, compiladores, dentre outros. O compilador mais utilizado para a linguagem C  o GCC (desenvolvido pelo projeto GNU). Mais informaes sobre a linguagem C podem ser encontradas em \cite{kernighan1988cpl}.
-\item \textbf{Projeto e anlise de algoritmos:} Algoritmos so procedimentos computacionais capazes de resolver diversos problemas do mundo real. O problema de controlar um elevador, estudado neste trabalho,  um dos exemplos de como algoritmos esto presentes no nosso dia-a-dia. O estudo de algoritmos  essencial para o desenvolvimento de tcnicas mais eficientes e eficazes para a soluo desses problemas. Mais informaes sobre o projeto e anlise de algoritmos podem ser encontradas em \cite{ziviani2007pai,cormen2001ia,sedgewick2001acp}
-\end{itemize}
+% - descrição do problema
+% - importância
+% - visão geral do trabalho
 
 \section{SOLUO PROPOSTA}
 \label{solucao_proposta}
 
+% - descrição em alto nível
+% - análise de complexidade
 A soluo proposta para a simulao discreta do funcionamento de um elevador utiliza um conjunto de estruturas de dados que contm informaes sobre o estado da simulao, do elevador, registros de requisies, dentre outros. Essas estruturas so manipuladas atravs de um conjunto de algoritmos que descrevem o funcionamento da soluo.
 
 O simulador implementado tem como base um temporizador contnuo, ou seja, cada instante de simulao corresponde  uma iterao do simulador. Uma outra opo seria utilizar como base a contagem das requisies. Os critrios que levaram  escolha da iterao do simulador em cada instante so: (1) a simplicidade de implementao, (2) mapeamento direto entre tempo de execuo e tempo de simulao e (3) o custo computacional reduzido de avaliar cada instante de simulao, supondo-se que as requisies sejam bem distribudas ao longo do tempo.
@@ -249,6 +207,11 @@ Acreditamos que a modelagem do problema considerando diferentes distribuies de p
 \section{IMPLEMENTAO}
 \label{implementacao}
 
+% - módulos
+% - formatos de entrada e saída
+% - compilação
+% - execução
+
 \subsection{Cdigo}
 
 \subsubsection{Arquivos .c}
@@ -331,6 +294,9 @@ espera elevador	:31
 \section{AVALIAO EXPERIMENTAL}
 \label{avaliacao_experimental}
 
+% - análise dos principais parâmetros da solução com gráficos, tabelas e
+%   discussão
+
 Nesta seo ns avaliamos a estratégia de controle de elevador proposta e o simulador implementado em termos do tempo de execuo (em segundos) e do tempo total de espera dos usurios (em Jepslons) para diferentes nmeros de andares, capacidades do elevador, nmeros de requisies e popularidades de trajetos. O tempo total de espera  a soma dos tempos de espera para entrar no elevador e para chegar ao andar desejado. Os experimentos foram executados em um computador pessoal com sistema operacional Suse Linux, processador AMD Athlon 3500+ 64 bits e 1GB de memria principal.
 
 Como destacado anteriormente, o tempo de execuo prov, alm do tempo para que toda a simulao seja realizada, uma aproximao sobre o quo demorado  o atendimento de todas as requisies do elevador (j que cada instante de tempo  simulado em uma iterao). J o tempo de espera pelo elevador  uma maneira simples de avaliar a qualidade do servio prestado. Outros critrios como utilizao do elevador, distncia total percorrida pelo elevador, dentre outros, poderiam ser avaliados. Alm disso, tambm seria interessante considerar como o tempo entre as requisies afeta o elevador, no entanto, devido  restries de tempo e espao, no avaliaremos todos os parmetros da simulao.
@@ -408,6 +374,10 @@ Inv. Proporcional  distncia	& 2,24	& 100,61	\\ \hline
 
 \section{CONCLUSO}
 \label{conclusao}
+
+% - Síntese dos resultados
+% - Dificuldades encontradas
+% - Melhorias possíveis
 
 Neste trabalho ns descrevemos um simulador discreto de eventos e uma estratégia de controle de um elevador. O simulador gera requisies a serem atendidas ao longo do tempo de simulao e o elevador atende  essas requisies de acordo com uma estratégia similar  utilizada pelos elevadores convencionais.
 
