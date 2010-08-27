@@ -245,31 +245,31 @@ ocorrências.
 \end{table}
 
 
+\section{Código}
 
-% - módulos
-% - formatos de entrada e saída
+\subsection{Módulos}
+O programa foi separado em quatro módulos:
+\begin{itemize}
+\item \textbf{Vocabulário:} controlou das estruturas responsáveis pelo
+armazenamento dos termos e o cálculo de toda lógica de funcionamento.
+\item \textbf{Entrada e Saída:}  controlou os arquivos que foram lidos e
+escritos pelo programa bem como a validação da entrada pela linha de comando.
+Outra função importante deste módulo foi filtrar os termos que não eram
+considerados palavras relevantes para o funcionamento do programa.
+\item \textbf{Util:} contém algumas funções que não se encaixavam bem nos outros
+módulos, além de ter o método de ordenação utilizado.
+\item \textbf{Principal:} interagiu com todos os outros módulos retornando erro
+quando alguma irregularidade era colocada, controlou o fluxo de execução do
+programa.
+\end{itemize}
+
+\subsection{Entrada e saída}
+O formato de entrada e saída definido para o trabalho foi:
+\begin{verbatim}
+  ARRA
+\end{verbatim}
 % - compilação
 % - execução
-
-\subsection{Cdigo}
-
-\subsubsection{Arquivos .c}
-
-\begin{itemize}
-\item \textbf{principal.c:} Arquivo principal do programa que implementa o simulador do elevador.
-\item \textbf{simulador.c:} Define as funes relacionadas  simulao do elevador.
-\item \textbf{lista.c:} Define funes relacionadas a manipulao de um TAD lista implementada atravs de apontadores.
-\item \textbf{fila.c:}  Define as estruturas de dados e cabealhos de funes relacionadas a manipulao de um TAD fila implementada atravs de apontadores.
-\end{itemize}
-
-\subsubsection{Arquivos .h}
-
-\begin{itemize}
-\item \textbf{simulador.h:}  Define as estruturas de dados e cabealhos de funes relacionadas a simulao do elevador
-\item \textbf{lista.h:} Define as estruturas de dados e cabealhos de funes relacionadas  manipulao de um TAD lista implementada atravs de apontadores.
-\item \textbf{fila.h:} Define as estruturas de dados e cabealhos de funes relacionadas a manipulao de um TAD fila implementada atravs de apontadores.
-
-\end{itemize}
 
 \subsection{Compilao}
 
