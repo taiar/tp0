@@ -20,11 +20,16 @@
 
 \title{Algoritmos e Estruturas de Dados 3 \\ Trabalho Prático 0 \\
 \huge{Similaridade de Textos}}
+\date{November 22, 1963}
+
 
 \author{André Taiar Marinho Oliveira}
 
+
 \address{Departamento de Ciência da Computação -- Universidade Federal de Minas Gerais (UFMG)
 \email{taiar@dcc.ufmg.br}
+\\
+\\ Agosto de 2010
 }
 
 \begin{document}
@@ -205,6 +210,7 @@ a sub-árvore da direita e um que aponta para a sub-árvore da direita).
 \begin{table}[ht]
   \caption{Análise de Complexidade do Dicionário}
   \centering
+  \begin{footnotesize}
   \begin{tabular}{c c}
   \hline\hline
   Operação & Custo (casos médios) \\
@@ -214,6 +220,7 @@ a sub-árvore da direita e um que aponta para a sub-árvore da direita).
   Caminhamento na Árvore & $O(n)$ \\
   \hline
   \end{tabular}
+  \end{footnotesize}
 \end{table}
 
 \subsubsection{Lista de Ocorrências}
@@ -230,20 +237,7 @@ ocorrências.
 \end{footnotesize}
 \end{algorithm}
 
-\begin{table}[ht]
-  \caption{Análise de Complexidade da Lista}
-  \centering
-  \begin{tabular}{c c}
-  \hline\hline
-  Operação & Custo \\
-  \hline
-  Inserção na Lista & $O(n)$ \\
-  Remocao da Lista & $O(n)$ \\
-  Pesquisa na Lista & $O(n)$ \\
-  \hline
-  \end{tabular}
-\end{table}
-
+As operações em lista são sempre $O(n)$ para o pior caso.
 
 \section{Código}
 
@@ -264,172 +258,130 @@ programa.
 \end{itemize}
 
 \subsection{Entrada e saída}
-O formato de entrada e saída definido para o trabalho foi:
+Para não haver problemas com a leitura da linha de comando, foi utilizado um utilitário do
+sistema Linux chamado \textbf{getopt} que permite uma leitura mais robusta dos argumentos
+passados ao programa. O comando para execução do programa definido para a linha de entrada 
+foi:
 \begin{verbatim}
-  ARRA
+  #: ./tp0 -a <A> -b <B> -c <C>
 \end{verbatim}
-% - compilação
-% - execução
-
-\subsection{Compilao}
-
-O programa deve ser compilado atravs do compilador GCC atravs de um makefile ou do seguinte comando:
-
-\begin{footnotesize}
-\begin{verbatim} gcc principal.c simulador.c fila.c lista.c -o tp0 \end{verbatim}
-\end{footnotesize}
-
-\subsection{Execuo}
-
-A execuo do programa tem como parmetros:
+Sendo: 
 \begin{itemize}
-\item Um arquivo de descrio do ambiente.
-\item Um arquivo de requisies.
-\item Um arquivo de sada.
+  \item \textbf{A} - caminho para um arquivo de entrada que contém uma lista de outros 
+      arquivos (um arquivo por linha);
+\begin{verbatim}
+texto1.txt
+texto2.txt
+texto3.txt
+texto4.txt
+...
+textoN.txt
+\end{verbatim}
+  \item \textbf{B} - caminho para o arquivo de saída que terá a lista de arquivos da 
+      entrada seguidos por suas respectivas palavras-chave;
+\begin{verbatim}
+texto1.txt;palavraA;palavraB;palavraC;...;palavraZ;
+texto2.txt;palavraA1;palavraB1;palavraC1;...;palavraZ1;
+texto3.txt;palavraA2;palavraB2;palavraC2;...;palavraZ2;
+texto4.txt;palavraA3;palavraB3;palavraC3;...;palavraZ3;
+...
+textoN.txt;palavraAN;palavraBN;palavraCN;...palavraZN;
+\end{verbatim}
+  \item \textbf{C} - caminho para o arquivo de saída que terá a lista de arquivos da 
+      entrada seguidos por uma lista de textos semelhantes à ele.
+\begin{verbatim}
+texto1.txt;textoA.txt;textoB.txt;...;textoZ.txt;
+texto2.txt;textoA1.txt;textoB1.txt;...;textoZ1.txt;
+texto3.txt;textoA2.txt;textoB2.txt;...;textoZ2.txt;
+texto4.txt;textoA3.txt;textoB3.txt;...;textoZ3.txt;
+...
+textoN.txt;textoAN.txt;textoBN.txt;textoCN.txt;...;textoZN.txt;
+\end{verbatim}
 \end{itemize}
 
-O comando para a execuo do programa  da forma:
+Todos os arquivos e/ou palavras chaves que forem listados devem estar na mesma linha 
+iniciada pelo arquivo com o qual se relaciona e devem estar separados entre si apenas por
+um caractere ";".
 
-\begin{footnotesize}
-\begin{verbatim} ./tp0 -a <arquivo de ambiente> -r <arquivo de requisicoes> -s <arquivo de saida> \end{verbatim}
-\end{footnotesize}
+Como convenção, adotei uma regra que havia sido definida no fórum da disciplina e optei 
+por utilizar textos sem acentuação nos caracteres, sem "til" e sem cedilha. Para tal, 
+antes de executar o programa eu utilizei o script de minha autoria que foi disponibilizado
+no fórum para tratar todas as entradas e obtê-las sem acentuação.
 
-\subsubsection{Formato da entrada}
-
-O arquivo de descrio do ambiente contm apenas uma linha onde so definidos o nmero de andares do prdio atendido pelo elevador e a capacidade de elevador, separados por espao. J o arquivo de requisies contm o nmero de requisies na primeira linha seguido de cada uma das requisies.
-
-Cada requisio contm um identificador, o instante de chamada do elevador (que tem como base um temporizador sequencial), o andar de origem do passageiro e o andar desejado. Um exemplo de arquivo de requisies  dado a seguir:
-
-\begin{footnotesize}
+\subsection{Compilação}
+O compilador utilizado neste trabalho foi o GCC (adotado como padrão para a disciplina) e 
+o comando para compilar o programa através do GCC é:
 \begin{verbatim}
-3
-0	0	0	10
-1	3	0	3
-2	5	13	15
+  #: gcc -o tp0 main.c io.c io.h vocabulario.c vocabulario.h \\
+            util.c util.h
 \end{verbatim}
-\end{footnotesize}
+caso estejam todos os arquivos dentro do mesmo diretório.
 
-\subsubsection{Formato da sada}
-
-A sada do programa, armazenada em um arquivo de sada, contm informaes sobre todas as requisies atendidas.  Para cada requisio as informaes de interesse so o identificador da requisio, o tempo de espera de carga (at que a pessoa entre no elevador) e o tempo de espera dentro do elevador. A seguir, a sada correspondente  entrada apresentada na seo anterior.
-
-\begin{footnotesize}
+Como pedido na especificação, foi feito um arquivo Makefile com o qual é possível compilar
+o programa com o comando: 
 \begin{verbatim}
-id		:0
-espera carga	:1
-espera elevador	:11
-
-id		:1
-espera carga	:27
-espera elevador	:4
-
-id		:2
-espera carga	:11
-espera elevador	:31
+  #: make build
 \end{verbatim}
-\end{footnotesize}
 
+E podemos compilar e executar o programa com o comando:
+\begin{verbatim}
+  #: make run
+\end{verbatim}
+que fará, além da compilação, com que o programa rode e execute a sua rotina para uma entrada
+já tratada e sem acentuação, "til" ou cedil hasdisponibilizada juntamente com o diretório 
+do trabalho.
 
-\section{AVALIAO EXPERIMENTAL}
+\section{Avaliação Experimental}
 \label{avaliacao_experimental}
 
-% - análise dos principais parâmetros da solução com gráficos, tabelas e
-%   discussão
+O que pudemos avaliar experimentalmente com a execução do programa é que apesar de ter 
+encontrado bem as palavras-chave de cada texto (os termos considerados foram realmente 
+relevantes), o algoritmo para clusterizar os textos não foi tão eficiente assim.
 
-Nesta seo ns avaliamos a estratégia de controle de elevador proposta e o simulador implementado em termos do tempo de execuo (em segundos) e do tempo total de espera dos usurios (em Jepslons) para diferentes nmeros de andares, capacidades do elevador, nmeros de requisies e popularidades de trajetos. O tempo total de espera  a soma dos tempos de espera para entrar no elevador e para chegar ao andar desejado. Os experimentos foram executados em um computador pessoal com sistema operacional Suse Linux, processador AMD Athlon 3500+ 64 bits e 1GB de memria principal.
+Aparentemente, textos com muitas palavras foram considerados muito mais que outros textos 
+menores. Esta falha provavelmente se encontra no algoritmo do cálculo do potencial de 
+semelhança entre os textos, descrito em alto-nível no algoritmo 2. Em uma próxima versão 
+será interessante normalizar matemáticamente essa contagem para evitar esse tipo de 
+discrepância de resultados.
 
-Como destacado anteriormente, o tempo de execuo prov, alm do tempo para que toda a simulao seja realizada, uma aproximao sobre o quo demorado  o atendimento de todas as requisies do elevador (j que cada instante de tempo  simulado em uma iterao). J o tempo de espera pelo elevador  uma maneira simples de avaliar a qualidade do servio prestado. Outros critrios como utilizao do elevador, distncia total percorrida pelo elevador, dentre outros, poderiam ser avaliados. Alm disso, tambm seria interessante considerar como o tempo entre as requisies afeta o elevador, no entanto, devido  restries de tempo e espao, no avaliaremos todos os parmetros da simulao.
+Como não fiz medições do tempo de execução do programa para diversas entradas, a avaliação
+da velocidade do programa para diferentes entradas será omitida.
 
-As entradas para a simulao do elevador foram geradas a partir de um gerador sinttico de requisies. Esse gerador recebe como parmetros: (1) o nmero de andares, (2) a capacidade do elevador, (3) um atributo que determina a popularidade dos trajetos e (4) o nmero de requisies. Como sada, o gerador cria um arquivo de ambiente e um arquivo de requisies. O atributo que determina a popularidade dos trajetos pode ser: (1) escolha aleatria, ou seja, trajetos escolhidos aleatoriamente, (2) probabilidade do trajeto proporcional ao tamanho, ou seja, trajetos mais longos so mais frequentes, e (3) probabilidade do trajeto inversamente proporcional ao tamanho do trajeto, o que resulta em maior frequncia de trajetos curtos.
-
-Em todos os experimentos ns variamos um parmetro e mantivemos os outros constantes. Cada experimento foi executado 5 vezes e foram tomados os valores mdios. Nosso objetivo  reduzir o impacto de propriedades de uma entrada especfica produzida pelo gerador de entradas.  Alm do tempo de execuo, foi medido tambm o tempo de usurio, que  o tempo gasto pelo processo do programa. O tempo de sistema, utilizado na realizao de tarefas no nvel do kernel, tambm foi medido, mas no  mostrado nos resultados pois  muito menor que os tempos de usurio e execuo. O tempo mdio entre as requisies do elevador foi mantido constante, igual a 3 Jepslons.
-
-A Tabela~\ref{tempo_n_andares} mostra como o aumento do nmero de andares afeta os tempos de  execuo, usurio e espera dos usurios. O nmero de andares varia de 25 a 40. O nmero de requisies  50000, a capacidade do elevador  de 10 usurios e a escolha dos trajetos  aleatria.  importante notarmos que, ao aumentarmos o nmero de andares, o tamanho mdio dos trajetos tende a aumentar. O nmero de andares afeta significativamente os tempos de execuo, usurio e espera. Experimentos com nmero de andares maior que 40 requerem tempos de execuo muito longos. Nossa hiptese de que esse impacto se deve ao aumento dos trajetos pode ser explicada pelo grande aumento do tempo de espera, ou seja, os usurios esto permanecendo no elevador por um longo perodo de tempo.
-
-\begin{table}[ht!]
-\centering
-\begin{footnotesize}
-\begin{tabular}{|c|c|c|c|}
-\hline
-\textbf{\#andares}              		& \textbf{Tempo execuo(seg.)} & \textbf{Tempo usurio(seg.)}      & \textbf{Tempo de espera (Jepslons)}\\ \hline
-25	& 2,03		& 1,85		& 56,19\\ \hline
-30	& 3,00		& 2,77		& 76,13\\ \hline
-35	& 6,96		& 6,69		& 140,37\\ \hline
-40	& 2068,28	& 1952,83	& 1947,29\\ \hline
-\end{tabular}
-\end{footnotesize}
-\caption{Tempo de simulao e de espera para diferentes nmeros de andares \label{tempo_n_andares}}
-\end{table}
-
-A Tabela~\ref{tempo_capacidade_elevador} mostra impacto da capacidade do elevador sobre o tempo de simulao e o tempo de espera. A capacidade varia de 10 a 13 lugares. O nmero de andares  40, o nmero de requisies  50000 e a escolha dos trajetos  aleatria. Como era esperado, o tempo de simulao e o tempo de espera so inversamente proporcionais  capacidade do elevador.
-
-\begin{table}[ht!]
-\centering
-\begin{footnotesize}
-\begin{tabular}{|c|c|c|c|}
-\hline
-\textbf{capacidade}              		& \textbf{Tempo execuo(seg.)} & \textbf{Tempo usurio(seg.)}      & \textbf{Tempo de espera (Jepslons)}\\ \hline
-10	& 2068,28	& 1952,83	& 1947,29\\ \hline
-11	& 17,63		& 17,16		& 234,37\\ \hline
-12	& 5,43		& 5,20		& 121,51\\ \hline
-13	& 4,31		& 4,07		& 101,04\\ \hline
-\end{tabular}
-\end{footnotesize}
-\caption{Tempo de simulao e de espera para diferentes capacidades do elevador \label{tempo_capacidade_elevador}}
-\end{table}
-
-A Figura~\ref{tempo_n_requisicoes} avalia o tempos de simulao e de espera em termos do nmero de requisies. O nmero de requisies varia de 30000 a 50000. O nmero de andares  40, a capacidade do elevador  10 e a escolha dos trajetos  aleatria. Como indicado na anlise de complexidade, o custo computacional do algoritmo  polinomial em relao ao nmero de requisies. O crescimento do tempo de execuo se aproxima de uma funo quadrtica, tambm de acordo com a anlise de complexidade. J o tempo de espera aumenta linearmente com o nmero de requisies, uma hiptese para esse resultado  que quanto maior o nmero de requisies, mais tempo  necessrio para que o simulador gere todas as requisies para o elevador. A partir do momento que todas as requisies foram geradas, a tendncia  que a fila de requisies se reduza gradativamente. No entanto, um longo perodo com gerao constante de requisies pelo simulador congestiona a fila de registros de requisio do elevador, aumentando o tempo mdio de espera.
-
-%\begin{figure}[ht!]
-%\centering
-%\subfigure[\label{tempo_simulacao_n_requisicoes}]
-%{
-%\centering
-%\includegraphics[width=2.5in,height=1.8in]{../graficos/tempo_simulacao_n_requisicoes.eps}
-%}
-%\subfigure[\label{tempo_espera_n_andares}]
-%{
-%\centering
-%\includegraphics[width=2.5in,height=1.8in]{../graficos/tempo_espera_n_requisicoes.eps}
-%}
-%\caption{Tempo de simulao e de espera para diferentes nmeros de requisies \label{tempo_n_requisicoes}}
-%\end{figure}
-
-Como ltima parte de nossa avaliao experimental, ns analisamos como a popularidade dos trajetos afeta os tempos de execuo e espera. Trs relaes entre as frequncias dos trajetos e seus tamanhos foram consideradas: (1) trajetos escolhidos aleatoriamente, (2) probabilidade do trajeto diretamente proporcional  sua distncia e (3) probabilidade do trajeto inversamente proporcional  sua distncia. O nmero de andares  40, a capacidade do elevador  10 e o nmero de requisies  15000. A Tabela~\ref{tempos_freq_trajetos} mostra os resultados obtidos. Podemos notar que a distribuio das requisies afeta significativamente os tempos de execuo e espera, principalmente o tempo de execuo. Quando trajetos longos se tornam mais frequentes, o tempo de execuo cresce, no somente devido ao aumento do nmero de iteraes de simulador, mas tambm do custo da manipulao de um grande nmero de requisies. J o tempo de espera, menos afetado, aumenta devido  uma maior carga de trabalho para o elevador.
-
-\begin{table}[ht!]
-\centering
-\begin{footnotesize}
-\begin{tabular}{|c|c|c|}
-\hline
-\textbf{Frequncia tamanho dos trajetos}              & \textbf{Tempo de execuo(seg.)}      & \textbf{Tempo de espera(seg.)} \\ \hline
-Aleatria			& 73,52	& 778,48	\\ \hline
-Proporcional  distncia	& 9.011,42	& 7.011,46	\\ \hline
-Inv. Proporcional  distncia	& 2,24	& 100,61	\\ \hline
-\end{tabular}
-\end{footnotesize}
-\caption{Tempos de simulao e de espera para diferentes frequncias de tamanhos de trajeto \label{tempos_freq_trajetos}}
-\end{table}
-
-\section{CONCLUSO}
+\section{Conclusão}
 \label{conclusao}
 
-% - Síntese dos resultados
-% - Dificuldades encontradas
-% - Melhorias possíveis
+Neste trabalho construímos um sistema que permite separar por critérios de similaridade
+(clusterizar) um conjunto de textos arbitrário através da identificação de 
+tópicos/palavras-chave desse texto.
 
-Neste trabalho ns descrevemos um simulador discreto de eventos e uma estratégia de controle de um elevador. O simulador gera requisies a serem atendidas ao longo do tempo de simulao e o elevador atende  essas requisies de acordo com uma estratégia similar  utilizada pelos elevadores convencionais.
+O trabalho conseguiu cumprir o propósito de praticar a linguagem C e o estudo de um 
+problema mais complexo do que o de costume. A utilização massiva de estruturas de pesquisa
+foi uma novidade. Uma decisão extremamente importante para o trabalho foi a de utilizarmos 
+uma estrutura em forma de árvore binária ao invés de outras que poderíamos utilizar como,
+por exemplo, tabelas hash o que provavelmente fez o programa executar com uma velocidade 
+maior e gastando uma quantidade menor de espaço em memória.
 
-O trabalho atingiu seus principais objetivos: a prtica da linguagem de programao C e o estudo de problemas complexos. O autor do trabalho j havia implementado alguns programas nessa linguagem e, portanto, no teve grandes problemas na implementao do trabalho. J a soluo do problema demandou a modelagem de diversos cenrios, de acordo com diferentes estados do elevador. Uma importante deciso foi a simulao de cada Jepslon e no de instantes especficos associados a eventos, o que facilitou o projeto da soluo.
+A análise da variação da qualidade da similaridade avaliada pelo programa é uma avaliação 
+subjetiva pois depende da leitura e interpretação dos textos retornados por parte de uma
+pessoa (melhor avaliadora de similaridade de conteúdo possível). Porém, ao analisarmos a 
+ocorrência de palavras chaves vemos que o sistema encontrou palavras que tinham realmente 
+a ver com o conteúdo daquele texto e que não eram tão decorrentes assim nos outros (tinham 
+certo caráter discriminativo entre os textos analisados).
 
-A anlise de complexidade da soluo proposta no foi uma tarefa simples, j que o custo computacional da soluo est sujeito  diversas caractersticas da entrada. Por outro lado, o impacto de diferentes fatores associados  entrada pde ser avaliado atravs de diversos experimentos realizados.
-
-Algumas melhorias que poderiam ser consideradas neste trabalho so:
+Algumas melhorias que poderiam ser consideradas neste trabalho são:
 \begin{itemize}
-\item Uma modelagem mais complexa do tempo de simulao em termos da popularidade dos trajetos, do tempo entre as requisies, dentre outros;
-\item A anlise do comportamento do elevador considerando caractersticas como a distncia percorrida e a taxa de utilizao do elevador.
+\item Um melhor tratamento dos textos de entrada (eliminando acentuação e outros 
+caracteres inválidos dentro do programa);
+\item Utilização de Stop Words, retirada de prefixo e sufixo e outros tipos de técnicas
+aplicadas em recuperação de informação com o objetivo de maximizarmos o aproveitamento dos
+termos contidos no índice;
+\item Uma melhor análise de complexidade de espaço e tempo de execução do programa, talvez
+a utilização de uma outra estrutura de dados para o índice seja mais eficiente em termos 
+de execução;
+\item Uma modelagem mais complexa da análise de frequência das ocorrências de termos 
+relevantes nos documentos analisados;
+\item Uma modelagem mais complexa do cálculo de similaridade entre os textos a partir de 
+suas/seus palavras-chave/tópicos.
 \end{itemize}
-\bibliographystyle{sbc}
-\bibliography{tp0}
 
 \end{document}

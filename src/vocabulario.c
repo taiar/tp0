@@ -1,9 +1,9 @@
 #include "vocabulario.h"
 
-int keywordCompare(Keyword *a, Keyword *b)
+int keywordCompare(const void *a, const void *b)
 {
-  if (a->ocorrencias > b->ocorrencias) return -1;
-  else if (a->ocorrencias < b->ocorrencias) return 1;
+  if ((unsigned int)((Keyword*)a)->ocorrencias > (unsigned int)((Keyword*)b)->ocorrencias) return -1;
+  else if ((unsigned int)((Keyword*)a)->ocorrencias < (unsigned int)((Keyword*)b)->ocorrencias) return 1;
   else return 0;
 }
 
@@ -260,7 +260,7 @@ void indiceRetornaSaidas(Entrada *entrada, Dicionario *textos_keywords,
 
     // ordena por termos que mais apareceram
     qsort(texto_keywords_individual, textos_termos_individual[i],
-        sizeof(Keyword), (cmp) keywordCompare);
+        sizeof(Keyword), keywordCompare);
 
     // imprime no arquivo de saida o nome dos textos com suas keywords
     fscanf(entrada->listaTextos, "%s\n", linha);

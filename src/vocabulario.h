@@ -20,8 +20,8 @@ typedef struct
 /**
  * Funções utilizadas pelo método qsort
  */
-typedef int (*cmp)(Keyword*, Keyword*);
-int keywordCompare(Keyword*, Keyword*);
+//typedef int (*cmp)(Keyword*, Keyword*);
+int keywordCompare(const void*, const void*);
 
 //=============================================================================
 // LISTA
